@@ -1,18 +1,75 @@
 /*
- * 3phase.c
- * 3 Phase DDS with a single timer
- *
- * Created: 27/07/2017 3:22:00 PM
- * Author : Matthew Witt
- */ 
+* main.c
+*
+* Author : Matthew Witt (pxf5695@autuni.ac.nz)
+* Created: 27/07/2017 3:22:00 PM
+*
+* Project Repository:https://github.com/wittsend/em-planar-actuator-controller
+*
+* Dual 3 phase direct digital synthesiser for controlling an electromagnetic planar actuator.
+*
+* More Info:
+* Atmel AT90USB1287 Datasheet:http://www.atmel.com/images/doc7593.pdf
+* Relevant reference materials or datasheets if applicable
+*
+* Functions:
+* void setup(void)
+* int main(void)
+*
+*/
 
 //////////////Includes//////////////////////////////////////////////////////////////////////////////
-#include <avr/io.h>
+#include <avr/io.h>			//Hardware specific register definitions
 #include <stdint.h>			//Gives C99 standard integer definitions
 
-//////////////Functions/////////////////////////////////////////////////////////////////////////////
-void setup(void);
+#include "pio.h"
+#include "pwm.h"
+#include "cosine_lut.h"
 
+//////////////Functions/////////////////////////////////////////////////////////////////////////////
+/*
+* Function:
+* void setup(void)
+*
+* Initialises all hardware and builds cosine look up table
+*
+* Inputs:
+* none
+*
+* Returns:
+* none
+*
+* Implementation:
+* - Set up parallel IO pins for use
+* - Initialise the PWM channels that will be used to control the coils
+*
+*/
+void setup(void)
+{
+	
+	pioInit();
+	xPwmInit();
+	yPwmInit();
+
+	return;
+}
+
+/*
+* Function:
+* int main(void)
+*
+* Overview of program operation
+*
+* Inputs:
+* none
+*
+* Returns:
+* none
+*
+* Implementation:
+* TODO:main function implementation.
+*
+*/
 int main(void)
 {
 	setup();
@@ -27,13 +84,4 @@ int main(void)
 			OCR3C = (int)(511.5*cos(angle + 4*M_PI/3.0) + 511.5);	//Phase C (240 deg shift)
 		}
     }
-}
-
-void setup(void)
-{
-
-
-	
-
-	return;
 }

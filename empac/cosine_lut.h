@@ -13,7 +13,7 @@
 * Relevant reference materials or datasheets if applicable
 *
 * Functions:
-* void buildCosineLut(float *lutArray)
+* void buildCosineLut(float *lutArray, uint16_t size)
 *
 */
 
@@ -22,6 +22,7 @@
 
 ///////////////Includes/////////////////////////////////////////////////////////////////////////////
 #include <math.h>
+#include <stdint.h>
 
 ///////////////Defines//////////////////////////////////////////////////////////////////////////////
 //Number of elements each look up table has
@@ -29,6 +30,6 @@
 
 ///////////////Functions////////////////////////////////////////////////////////////////////////////
 
-void buildCosineLut(float *lutArray);
+void buildCosineLut(float *lutArray, uint16_t size);
 
 #endif /* COSINE_LUT_H_ */
