@@ -90,7 +90,7 @@ void buildDcCosineLut(float *lutArray, uint16_t size)
 *   Floating point cosine function value for the given angle
 *
 * Implementation:
-* The angle is checked to make sure it is within range of the LUT, and corrected if neccesary.
+* The angle is checked to make sure it is within range of the LUT, and corrected if necessary.
 * The row from the look up table is derived by multiplying the maximum number of table elements
 * specified by LUT_RESOLUTION by the ratio of the given angle to 360 degrees.
 *
@@ -120,7 +120,7 @@ float dcCosDeg(float degrees)
 *   Floating point cosine function value for the given angle
 *
 * Implementation:
-* The angle is checked to make sure it is within range of the LUT, and corrected if neccesary.
+* The angle is checked to make sure it is within range of the LUT, and corrected if necessary.
 * The row from the look up table is derived by multiplying the maximum number of table elements
 * specified by LUT_RESOLUTION by the ratio of the given angle to 360 degrees.
 *
@@ -133,4 +133,31 @@ float dcCosRad(float radians)
 		radians = 0.0;
 	uint16_t tableElement = round(LUT_RESOLUTION*radians/2/M_PI);
 	return dcCosTable[tableElement];	
+}
+
+/*
+* Function:
+* float dcCosRad(float degrees)
+*
+* Returns the DC offset cosine function for the given angle in radians from the look up table.
+* Equivalent to y = 0.5*cos(degrees) + 0.5
+*
+* Inputs:
+* uint16_t tableElement:
+*   Angle in degrees for which to return a value
+*
+* Returns:
+*   Floating point cosine function value for the given angle
+*
+* Implementation:
+* The angle is checked to make sure it is within range of the LUT, and corrected if necessary.
+* The row from the look up table is derived by multiplying the maximum number of table elements
+* specified by LUT_RESOLUTION by the ratio of the given angle to 360 degrees.
+*
+*/
+float dcCos(uint16_t tableElement)
+{
+	if(tableElement > LUT_RESOLUTION)
+		tableElement = LUT_RESOLUTION;
+	return dcCosTable[tableElement];
 }
