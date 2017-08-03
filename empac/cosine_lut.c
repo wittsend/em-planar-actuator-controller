@@ -13,7 +13,7 @@
 * Relevant reference materials or datasheets if applicable
 *
 * Functions:
-* void funcName(void)
+* void buildCosineLut(float *lutArray, uint16_t size)
 *
 */
 
