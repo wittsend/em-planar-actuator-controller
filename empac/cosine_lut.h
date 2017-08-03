@@ -17,7 +17,7 @@
 * void buildDcCosineLut(float *lutArray, uint16_t size)
 * float dcCosDeg(float degrees)
 * float dcCosRad(float radians)
-* float dcCos(uint16_t tableElement)
+* float dcCos(int16_t tableElement)
 *
 */
 
@@ -25,13 +25,17 @@
 #define COSINE_LUT_H_
 
 ///////////////Includes/////////////////////////////////////////////////////////////////////////////
-#include <math.h>
-#include <stdint.h>
+#include <math.h>			//for M_PI, cos(), fabs()
+#include <stdlib.h>			//for abs() function
+#include <stdint.h>			//Gives C99 standard integer definitions
 
 ///////////////Defines//////////////////////////////////////////////////////////////////////////////
 //Number of elements each look up table has. If each value is a 4 byte float then a 1024 element LUT
-//should take up 4kb (4 * 1024)
-#define LUT_RESOLUTION	1024
+//should take up 4kb (4 * 1024) which is 50% of the available RAM
+#define LUT_RESOLUTION	1024				//10bit look up table
+#define RAD_LUT_CONV	162.974661726100823	//Radians conversion factor: LUT_RESOLUTION/2/PI
+#define DEG_LUT_CONV	2.844444444444444	//Degrees conversion factor: LUT_RESOLUTION/360
+#define TWO_PI			6.28318530717958647692
 
 ///////////////Functions////////////////////////////////////////////////////////////////////////////
 /*
@@ -110,7 +114,7 @@ float dcCosRad(float radians);
 * Equivalent to y = 0.5*cos(degrees) + 0.5
 *
 * Inputs:
-* uint16_t tableElement:
+* int16_t tableElement:
 *   Table row number from which to retrieve a value
 *
 * Returns:
@@ -121,6 +125,6 @@ float dcCosRad(float radians);
 * The cosine value from the look up table is returned.
 *
 */
-float dcCos(uint16_t tableElement);
+float dcCos(int16_t tableElement);
 
 #endif /* COSINE_LUT_H_ */

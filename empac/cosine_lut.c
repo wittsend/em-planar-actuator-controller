@@ -17,7 +17,7 @@
 * void buildDcCosineLut(float *lutArray, uint16_t size)
 * float dcCosDeg(float degrees)
 * float dcCosRad(float radians)
-* float dcCos(uint16_t tableElement)
+* float dcCos(int16_t tableElement)
 *
 */
 
@@ -101,11 +101,14 @@ void buildDcCosineLut(float *lutArray, uint16_t size)
 */
 float dcCosDeg(float degrees)
 {
-	if (degrees > 360.0)
-		degrees = 360.0;
-	if (degrees < 0.0)
-		degrees = 0.0;
-	uint16_t tableElement = round(LUT_RESOLUTION*degrees/360.0);
+	degrees = fabs(degrees);				//Cosine function is symmetrical, so invert if angle is
+											//less than 0.
+	while(degrees > 360.0)					//If table value is out of range, keep subtracting 360
+											//until its in range.
+	{
+		degrees -= 360.0;
+	}
+	uint16_t tableElement = round(DEG_LUT_CONV*degrees);
 	return dcCosTable[tableElement];
 }
 
@@ -131,11 +134,14 @@ float dcCosDeg(float degrees)
 */
 float dcCosRad(float radians)
 {
-	if (radians > 2*M_PI)
-		radians = 2*M_PI;
-	if (radians < 0.0)
-		radians = 0.0;
-	uint16_t tableElement = round(LUT_RESOLUTION*radians/2/M_PI);
+	radians = fabs(radians);				//Cosine function is symmetrical, so invert if angle is
+											//less than 0.
+	while(radians > TWO_PI)					//If table value is out of range, keep subtracting 2pi
+											//until its in range.
+	{
+		radians -= TWO_PI;
+	}
+	uint16_t tableElement = round(RAD_LUT_CONV*radians);
 	return dcCosTable[tableElement];	
 }
 
@@ -147,7 +153,7 @@ float dcCosRad(float radians)
 * Equivalent to y = 0.5*cos(degrees) + 0.5
 *
 * Inputs:
-* uint16_t tableElement:
+* int16_t tableElement:
 *   Table row number from which to retrieve a value
 *
 * Returns:
@@ -158,9 +164,14 @@ float dcCosRad(float radians)
 * The cosine value from the look up table is returned.
 *
 */
-float dcCos(uint16_t tableElement)
+float dcCos(int16_t tableElement)
 {
-	if(tableElement > LUT_RESOLUTION)
-		tableElement = LUT_RESOLUTION;
+	tableElement = abs(tableElement);		//Cosine function is symmetrical, so invert if angle is
+											//less than 0.
+	while(tableElement > LUT_RESOLUTION)	//If table value is out of range, scale it down so its
+											//in range.
+	{
+		tableElement -= LUT_RESOLUTION;
+	}
 	return dcCosTable[tableElement];
 }
