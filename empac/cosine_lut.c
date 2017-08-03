@@ -13,7 +13,11 @@
 * Relevant reference materials or datasheets if applicable
 *
 * Functions:
+* void buildLuts(void)
 * void buildDcCosineLut(float *lutArray, uint16_t size)
+* float dcCosDeg(float degrees)
+* float dcCosRad(float radians)
+* float dcCos(uint16_t tableElement)
 *
 */
 
@@ -144,15 +148,14 @@ float dcCosRad(float radians)
 *
 * Inputs:
 * uint16_t tableElement:
-*   Angle in degrees for which to return a value
+*   Table row number from which to retrieve a value
 *
 * Returns:
-*   Floating point cosine function value for the given angle
+*   Floating point cosine function value stored in the given table element
 *
 * Implementation:
-* The angle is checked to make sure it is within range of the LUT, and corrected if necessary.
-* The row from the look up table is derived by multiplying the maximum number of table elements
-* specified by LUT_RESOLUTION by the ratio of the given angle to 360 degrees.
+* The element is checked to make sure it is within range of the LUT, and corrected if necessary.
+* The cosine value from the look up table is returned.
 *
 */
 float dcCos(uint16_t tableElement)

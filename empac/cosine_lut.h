@@ -13,7 +13,11 @@
 * Relevant reference materials or datasheets if applicable
 *
 * Functions:
+* void buildLuts(void)
 * void buildDcCosineLut(float *lutArray, uint16_t size)
+* float dcCosDeg(float degrees)
+* float dcCosRad(float radians)
+* float dcCos(uint16_t tableElement)
 *
 */
 
@@ -97,5 +101,26 @@ float dcCosDeg(float degrees);
 *
 */
 float dcCosRad(float radians);
+
+/*
+* Function:
+* float dcCosRad(float degrees)
+*
+* Returns the DC offset cosine function for the given angle in radians from the look up table.
+* Equivalent to y = 0.5*cos(degrees) + 0.5
+*
+* Inputs:
+* uint16_t tableElement:
+*   Table row number from which to retrieve a value
+*
+* Returns:
+*   Floating point cosine function value stored in the given table element
+*
+* Implementation:
+* The element is checked to make sure it is within range of the LUT, and corrected if necessary.
+* The cosine value from the look up table is returned.
+*
+*/
+float dcCos(uint16_t tableElement);
 
 #endif /* COSINE_LUT_H_ */
