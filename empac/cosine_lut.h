@@ -1,7 +1,7 @@
 /*
 * cosine_lut.h
 *
-* Author : Matthew Witt (wittsend86@gmail.com)
+* Author : Matthew Witt (pxf5695@autuni.ac.nz)
 * Created: 3/08/2017 7:45:38 PM
 *
 * Project Repository:http://www.atmel.com/images/doc7593.pdf
