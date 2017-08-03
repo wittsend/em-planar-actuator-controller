@@ -1,5 +1,12 @@
+
+
 # Prerequisites
 *.d
+
+#ignore non git hidden files
+.*
+!.gitignore
+!.gitattibutes
 
 # Object files
 *.o
@@ -45,8 +52,21 @@
 # Kernel Module Compile Results
 *.mod*
 *.cmd
-.tmp_versions/
 modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Atmel Studio extra build / debug files
+*.bin
+*.eep
+*.lss
+*.srec
+*.mk
+*.atsuo
+RobotNoASF/Debug/Makefile
+
+#device startup config
+*.ld
+*.vs
+.vs
