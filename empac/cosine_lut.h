@@ -32,7 +32,22 @@
 ///////////////Functions////////////////////////////////////////////////////////////////////////////
 /*
 * Function:
-* void buildCosineLut(float *lutArray)
+* void initLut(void)
+*
+* Builds cosine lookup tables and stores them in RAM
+*
+* Inputs:
+* none
+*
+* Returns:
+* none
+*
+*/
+void buildLuts(void);
+
+/*
+* Function:
+* void buildDcCosineLut(float *lutArray)
 *
 * Builds a DC offset cosine function look up table in RAM with the number of elements specified by
 * 'size'. Maximum value = 1, minimum value = 0
@@ -48,5 +63,39 @@
 *
 */
 void buildDcCosineLut(float *lutArray, uint16_t size);
+
+/*
+* Function:
+* float dcCosDeg(float degrees)
+*
+* Returns the DC offset cosine function for the given angle in degrees from the look up table.
+* Equivalent to y = 0.5*cos(degrees) + 0.5
+*
+* Inputs:
+* float degrees:
+*   Angle in degrees for which to return a value
+*
+* Returns:
+*   Floating point cosine function value for the given angle
+*
+*/
+float dcCosDeg(float degrees);
+
+/*
+* Function:
+* float dcCosRad(float degrees)
+*
+* Returns the DC offset cosine function for the given angle in radians from the look up table.
+* Equivalent to y = 0.5*cos(degrees) + 0.5
+*
+* Inputs:
+* float degrees:
+*   Angle in degrees for which to return a value
+*
+* Returns:
+*   Floating point cosine function value for the given angle
+*
+*/
+float dcCosRad(float radians);
 
 #endif /* COSINE_LUT_H_ */
