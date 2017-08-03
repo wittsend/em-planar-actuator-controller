@@ -8,7 +8,7 @@
 
 //////////////Includes//////////////////////////////////////////////////////////////////////////////
 #include <avr/io.h>
-#include <math.h>
+#include <stdint.h>			//Gives C99 standard integer definitions
 
 //////////////Functions/////////////////////////////////////////////////////////////////////////////
 void setup(void);
@@ -31,24 +31,9 @@ int main(void)
 
 void setup(void)
 {
-	DDRE = 0x03;			//Set port E 0,1 for output (mux)
-	DDRD = 0x06;			//Set port D 5,6 for output (mux)
-	PORTD = 0x00;			//Set mux to 0
-	PORTE = 0x00;			//Set mux to 0
-	DDRC = 0xFF;			//PORTC for output
-	PORTC = 0x00;			//Switch all LEDs off initially
+
+
 	
-	TCCR3A 
-	=	(0x02<<COM3A0)		//Clear OC3A on compare match, set on TOP
-	|	(0x02<<COM3B0)		//Clear OC3B on compare match, set on TOP
-	|	(0x02<<COM3C0)		//Clear OC3C on compare match, set on TOP
-	|	(0x03<<WGM30);		//WG mode 7 Fast 10bit PWM
-	TCCR3B
-	=	(0x01<<WGM32)		//WG mode 7 Fast 10bit PWM
-	|	(0x01<<CS30);		//clk/8
-	
-	OCR3A = 0x003F;			//Initial values for OCR3
-	OCR3B = 0x003F;
-	OCR3C = 0x003F;
+
 	return;
 }
