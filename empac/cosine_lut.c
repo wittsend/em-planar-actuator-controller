@@ -101,7 +101,7 @@ void buildDcCosineLut(float *lutArray, uint16_t size)
 */
 float dcCosDeg(float degrees)
 {
-	degrees = fabs(degrees);				//Cosine function is symmetrical, so invert if angle is
+	//degrees = fabs(degrees);				//Cosine function is symmetrical, so invert if angle is
 											//less than 0.
 	while(degrees > 360.0)					//If table value is out of range, keep subtracting 360
 											//until its in range.

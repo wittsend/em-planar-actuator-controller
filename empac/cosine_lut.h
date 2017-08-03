@@ -26,6 +26,7 @@
 
 ///////////////Includes/////////////////////////////////////////////////////////////////////////////
 #include <math.h>			//for M_PI, cos(), fabs()
+#include <float.h>
 #include <stdlib.h>			//for abs() function
 #include <stdint.h>			//Gives C99 standard integer definitions
 
@@ -33,10 +34,11 @@
 //Number of elements each look up table has. If each value is a 4 byte float then a 1024 element LUT
 //should take up 4kb (4 * 1024) which is 50% of the available RAM
 #define LUT_RESOLUTION	1024				//10bit look up table
-#define RAD_LUT_CONV	162.974661726100823	//Radians conversion factor: LUT_RESOLUTION/2/PI
-#define DEG_LUT_CONV	2.844444444444444	//Degrees conversion factor: LUT_RESOLUTION/360
-#define TWO_PI			6.28318530717958647692
 
+//By pre calculating these conversion factors, the program execution ought to speed up.
+#define RAD_LUT_CONV	162.974	//Radians conversion factor: LUT_RESOLUTION/2/PI
+#define DEG_LUT_CONV	2.844	//Degrees conversion factor: LUT_RESOLUTION/360
+#define TWO_PI			6.283
 ///////////////Functions////////////////////////////////////////////////////////////////////////////
 /*
 * Function:
