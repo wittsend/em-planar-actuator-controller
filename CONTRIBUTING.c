@@ -1,19 +1,14 @@
-//The code format should be as below,
-//Excessive commenting and documentations is encouraged as this project is multi-year, in the future a new group of
-//students will need to pick this project up as quickly as possible.
-
-//Also Note the Max line width should be 100
-
 /*
 * formatting.c
 *
-* Author : Adam Parlane (adam.parlane@outlook.com) Github: AdamParlane
-* Created: 15/04/2017 3:31:20 PM
+* Author : Matthew Witt (wittsend86@gmail.com)
+* Created: 03/08/2017
 * 
-* Project Repository: https://github.com/AdamParlane/aut-swarm-robotics
+* Project Repository:https://github.com/wittsend/em-planar-actuator-controller
 *
-* SPI driver for optical mouse sensor ADNS-7530 used for navigation
-* in the 2017 swarm robotics project for Mark Beckerleg, AUT
+* The code format should be as below,
+* Excessive commenting and documentations is encouraged.
+* Also Note the Max line width should be 100 character. Exception to this rule is URLs
 *
 * Functions: 
 * int functionName(char paramOne, int paramTwo, unsigned int paramThree)
@@ -27,12 +22,12 @@
 * Author : name (email)
 * Created: time date
 * 
-* Project Repository: https://github.com/AdamParlane/aut-swarm-robotics
+* Project Repository:https://github.com/wittsend/em-planar-actuator-controller
 *
 * 1 or 2 liner on the purpose of the file
 *
 * More Info:
-* Atmel SAM 4N Processor Datasheet:http://www.atmel.com/Images/Atmel-11158-32-bit%20Cortex-M4-Microcontroller-SAM4N16-SAM4N8_Datasheet.pdf
+* Atmel AT90USB1287 Datasheet:http://www.atmel.com/images/doc7593.pdf
 * Relevant reference materials or datasheets if applicable
 *
 * Functions:
