@@ -13,7 +13,7 @@
 * Relevant reference materials or datasheets if applicable
 *
 * Functions:
-* void buildCosineLut(float *lutArray, uint16_t size)
+* void buildDcCosineLut(float *lutArray, uint16_t size)
 *
 */
 
@@ -25,7 +25,8 @@
 * Function:
 * void buildCosineLut(float *lutArray)
 *
-* Builds a cosine function look up table with the number of elements specified in LUT_RESOLUTION
+* Builds a DC offset cosine function look up table in RAM with the number of elements specified by
+* 'size'. Maximum value = 1, minimum value = 0. 
 *
 * Inputs:
 * float *lutArray:
@@ -37,14 +38,17 @@
 * none
 *
 * Implementation:
-* TODO:[explain key steps of function]
-* [use heavy detail for anything complicated]
+* A for loop counts from 0 to size, populating the lookup table with amplitude shifted cosine
+* values. The values range from 0 to 1 (DC offset) 
 *
 * Improvements:
 * [Ideas for improvements that are yet to be made](optional)
 *
 */
-void buildCosineLut(float *lutArray, uint16_t size)
+void buildDcCosineLut(float *lutArray, uint16_t size)
 {
-	
+	for (uint16_t i = 0; i < size; i++)
+	{
+		lutArray[i] = 0.5*cos(2*i*M_PI/size) + 0.5;
+	}
 }

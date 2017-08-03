@@ -13,7 +13,7 @@
 * Relevant reference materials or datasheets if applicable
 *
 * Functions:
-* void buildCosineLut(float *lutArray, uint16_t size)
+* void buildDcCosineLut(float *lutArray, uint16_t size)
 *
 */
 
@@ -25,11 +25,28 @@
 #include <stdint.h>
 
 ///////////////Defines//////////////////////////////////////////////////////////////////////////////
-//Number of elements each look up table has
+//Number of elements each look up table has. If each value is a 4 byte float then a 1024 element LUT
+//should take up 4kb (4 * 1024)
 #define LUT_RESOLUTION	1024
 
 ///////////////Functions////////////////////////////////////////////////////////////////////////////
-
-void buildCosineLut(float *lutArray, uint16_t size);
+/*
+* Function:
+* void buildCosineLut(float *lutArray)
+*
+* Builds a DC offset cosine function look up table in RAM with the number of elements specified by
+* 'size'. Maximum value = 1, minimum value = 0
+*
+* Inputs:
+* float *lutArray:
+*   A predefined floating point array where the cosine table will be stored
+* uint16_t size:
+*   16bit integer giving the size of the look up table.
+*
+* Returns:
+* none
+*
+*/
+void buildDcCosineLut(float *lutArray, uint16_t size);
 
 #endif /* COSINE_LUT_H_ */
