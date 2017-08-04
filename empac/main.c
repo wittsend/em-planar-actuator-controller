@@ -30,17 +30,17 @@
 ///////////////Defines//////////////////////////////////////////////////////////////////////////////
 //Base phase relationships:
 //Cosine table phase relationships
-#define PHA		0
-#define PHB		341
-#define PHC		682
+#define PHA			0
+#define PHB			341
+#define PHC			682
 //Phase relationships in degrees
-#define PHA_DEG	0
-#define PHB_DEG 120
-#define PHC_DEG 240
+#define PHA_DEG		0
+#define PHB_DEG		120
+#define PHC_DEG		240
 //Phase relationships in radians
-#define PHA_RAD 0
-#define PHB_RAD 2.094395
-#define PHC_RAD 4.188790
+#define PHA_RAD		0
+#define PHB_RAD		2.094395
+#define PHC_RAD		4.188790
 
 //////////////Functions/////////////////////////////////////////////////////////////////////////////
 /*
