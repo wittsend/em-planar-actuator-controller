@@ -21,10 +21,26 @@
 //////////////Includes//////////////////////////////////////////////////////////////////////////////
 #include <avr/io.h>			//Hardware specific register definitions
 #include <stdint.h>			//Gives C99 standard integer definitions
+//#include <math.h>
 
 #include "pio.h"
 #include "pwm.h"
 #include "cosine_lut.h"
+
+///////////////Defines//////////////////////////////////////////////////////////////////////////////
+//Base phase relationships:
+//Cosine table phase relationships
+#define PHA		0
+#define PHB		341
+#define PHC		682
+//Phase relationships in degrees
+#define PHA_DEG	0
+#define PHB_DEG 120
+#define PHC_DEG 240
+//Phase relationships in radians
+#define PHA_RAD 0
+#define PHB_RAD 2.094395
+#define PHC_RAD 4.188790
 
 //////////////Functions/////////////////////////////////////////////////////////////////////////////
 /*
@@ -46,11 +62,10 @@
 */
 void setup(void)
 {
-	
+	buildLuts();
 	pioInit();
 	xPwmInit();
-	yPwmInit();
-
+	//yPwmInit();		//Not implemented
 	return;
 }
 
@@ -75,13 +90,19 @@ int main(void)
 	setup();
     while(1) 
     {
-		for(float angle = 0.0; angle < (2.0*M_PI); angle = angle + 0.001)
+		//for(float angle = 0.0; angle < 360.0; angle += DEG_LUT_CONV)
+		for(int16_t angle = 0; angle < 1024; angle++)
 		{
 			//Would use a LUT for the final product rather than on the fly maths
 			//Waveforms are shifted up by 511.5 so the minimum is at 0 and the max is 1023
-			OCR3A = (int)(511.5*cos(angle) + 511.5);				//Phase A (0 deg shift)
-			OCR3B = (int)(511.5*cos(angle + 2*M_PI/3.0) + 511.5);	//Phase B (120 deg shift)
-			OCR3C = (int)(511.5*cos(angle + 4*M_PI/3.0) + 511.5);	//Phase C (240 deg shift)
+			OCR3A = dcCos(angle+PHA);
+			OCR3B = dcCos(angle+PHB);
+			OCR3C = dcCos(angle+PHC);
+			//OCR3A = dcCosDeg(angle);
+			//OCR3B = dcCosDeg(angle+120);
+			//OCR3C = dcCosDeg(angle+240);
 		}
     }
 }
+
+
