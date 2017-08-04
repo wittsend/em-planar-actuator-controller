@@ -27,46 +27,22 @@
 #include "pwm.h"
 #include "cosine_lut.h"
 
-//////////////Functions/////////////////////////////////////////////////////////////////////////////
-void setup(void);
-/*
-* Function:
-* int main(void)
-*
-* Overview of program operation
-*
-* Inputs:
-* none
-*
-* Returns:
-* none
-*
-* Implementation:
-* TODO:main function implementation.
-*
-*/
-int main(void)
-{
-	setup();
-    while(1) 
-    {
-		for(float angle = 0.0; angle < 360; angle += DEG_LUT_CONV)
-		//for(int16_t angle = 0; angle < 2048; angle++)
-		{
-			//Would use a LUT for the final product rather than on the fly maths
-			//Waveforms are shifted up by 511.5 so the minimum is at 0 and the max is 1023
-			//OCR3A = dcCos(angle);
-			//OCR3B = dcCos(angle+341);
-			//OCR3C = dcCos(angle+682);
-			OCR3A = dcCosDeg(angle);
-			OCR3B = dcCosDeg(angle+120);
-			OCR3C = dcCosDeg(angle+240);
-			
-		}
-		
-    }
-}
+///////////////Defines//////////////////////////////////////////////////////////////////////////////
+//Base phase relationships:
+//Cosine table phase relationships
+#define PHA		0
+#define PHB		341
+#define PHC		682
+//Phase relationships in degrees
+#define PHA_DEG	0
+#define PHB_DEG 120
+#define PHC_DEG 240
+//Phase relationships in radians
+#define PHA_RAD 0
+#define PHB_RAD 2.094395
+#define PHC_RAD 4.188790
 
+//////////////Functions/////////////////////////////////////////////////////////////////////////////
 /*
 * Function:
 * void setup(void)
@@ -92,3 +68,41 @@ void setup(void)
 	//yPwmInit();		//Not implemented
 	return;
 }
+
+/*
+* Function:
+* int main(void)
+*
+* Overview of program operation
+*
+* Inputs:
+* none
+*
+* Returns:
+* none
+*
+* Implementation:
+* TODO:main function implementation.
+*
+*/
+int main(void)
+{
+	setup();
+    while(1) 
+    {
+		//for(float angle = 0.0; angle < 360.0; angle += DEG_LUT_CONV)
+		for(int16_t angle = 0; angle < 1024; angle++)
+		{
+			//Would use a LUT for the final product rather than on the fly maths
+			//Waveforms are shifted up by 511.5 so the minimum is at 0 and the max is 1023
+			OCR3A = dcCos(angle+PHA);
+			OCR3B = dcCos(angle+PHB);
+			OCR3C = dcCos(angle+PHC);
+			//OCR3A = dcCosDeg(angle);
+			//OCR3B = dcCosDeg(angle+120);
+			//OCR3C = dcCosDeg(angle+240);
+		}
+    }
+}
+
+

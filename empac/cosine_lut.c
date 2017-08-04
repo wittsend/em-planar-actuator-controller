@@ -14,7 +14,7 @@
 *
 * Functions:
 * void buildLuts(void)
-* void buildDcCosineLut(float *lutArray, uint16_t size)
+* void buildDcCosineLutPWM(uint16_t *lutArray, uint16_t size)
 * uint16_t dcCosDeg(float degrees)
 * uint16_t dcCosRad(float radians)
 * uint16_t dcCos(int16_t tableElement)
@@ -79,16 +79,33 @@ void buildDcCosineLutPWM(uint16_t *lutArray, uint16_t size)
 	}
 }
 
-
+/*
+* Function:
+* uint16_t dcCosDeg(float degrees)
+*
+* Returns the DC offset cosine function for the given angle in degrees from the look up table.
+* Equivalent to y = PWM_TOP*0.5*cos(degrees) + PWM_TOP*0.5
+*
+* Inputs:
+* float degrees:
+*   Angle in degrees for which to return a value
+*
+* Returns:
+*   Floating point DC offset cosine function value for the given angle (0-1023)
+*
+* Implementation:
+* The angle is checked to make sure it is within range of the LUT, and corrected if necessary.
+* The row from the look up table is derived by multiplying the maximum number of table elements
+* specified by LUT_RESOLUTION by the ratio of the given angle to 360 degrees.
+*
+*/
 uint16_t dcCosDeg(float degrees)
 {
 	degrees = fabs(degrees);				//Cosine function is symmetrical, so invert if angle is
 											//less than 0.
 	while(degrees > 360.0)					//If table value is out of range, keep subtracting 360
-											//until its in range.
-	{
-		degrees -= 360.0;
-	}
+		degrees -= 360.0;					//until its in range.
+	
 	uint16_t tableElement = round(DEG_LUT_CONV*degrees);
 	return dcCosTablePWM[tableElement];
 }
@@ -98,7 +115,7 @@ uint16_t dcCosDeg(float degrees)
 * uint16_t dcCosRad(float radians)
 *
 * Returns the DC offset cosine function for the given angle in radians from the look up table.
-* Equivalent to y = PWM_TOP*0.5*cos(degrees) + PWM_TOP*0.5
+* Equivalent to y = PWM_TOP*0.5*cos(radians) + PWM_TOP*0.5
 *
 * Inputs:
 * float radians:
@@ -118,24 +135,23 @@ uint16_t dcCosRad(float radians)
 	radians = fabs(radians);				//Cosine function is symmetrical, so invert if angle is
 											//less than 0.
 	while(radians > TWO_PI)					//If table value is out of range, keep subtracting 2pi
-											//until its in range.
-	{
-		radians -= TWO_PI;
-	}
+		radians -= TWO_PI;					//until its in range.
+
 	uint16_t tableElement = round(RAD_LUT_CONV*radians);
 	return dcCosTablePWM[tableElement];	
 }
 
 /*
 * Function:
-* uint16_t dcCosRad(float degrees)
+* uint16_t dcCos(int16_t tableElement)
 *
-* Returns the DC offset cosine function for the given angle in radians from the look up table.
-* Equivalent to y = PWM_TOP*0.5*cos(degrees) + PWM_TOP*0.5
+* Returns the DC offset cosine function for the given look up table element.
+* Equivalent to y = PWM_TOP*0.5*cos(LUT Element) + PWM_TOP*0.5
 *
 * Inputs:
 * int16_t tableElement:
-*   Table row number from which to retrieve a value
+*   Table row number from which to retrieve a value (Valid values are from 0 to 1023. Number
+*   wrapping occurs if an out of range value is passed)
 *
 * Returns:
 *   Floating point cosine function value stored in the given table element
@@ -147,13 +163,11 @@ uint16_t dcCosRad(float radians)
 */
 uint16_t dcCos(int16_t tableElement)
 {
-	uint16_t e = abs(tableElement);		//Cosine function is symmetrical, so invert if angle is
+	uint16_t e = abs(tableElement);			//Cosine function is symmetrical, so invert if angle is
 											//less than 0.
-	while(e > LUT_RESOLUTION)	//If table value is out of range, scale it down so its
-											//in range.
-	{
-		e -= LUT_RESOLUTION;
-	}
+	while(e > LUT_RESOLUTION)				//If table value is out of range, scale it down so its
+		e -= LUT_RESOLUTION;				//in range.
+
 	return dcCosTablePWM[e];
 }
 

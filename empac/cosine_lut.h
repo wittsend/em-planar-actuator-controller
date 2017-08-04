@@ -14,7 +14,7 @@
 *
 * Functions:
 * void buildLuts(void)
-* void buildDcCosineLut(float *lutArray, uint16_t size)
+* void buildDcCosineLutPWM(uint16_t *lutArray, uint16_t size)
 * uint16_t dcCosDeg(float degrees)
 * uint16_t dcCosRad(float radians)
 * uint16_t dcCos(int16_t tableElement)
@@ -26,7 +26,7 @@
 
 ///////////////Includes/////////////////////////////////////////////////////////////////////////////
 #include <math.h>			//for M_PI, cos(), fabs()
-#include <float.h>
+//#include <float.h>
 #include <stdlib.h>			//for abs() function
 #include <stdint.h>			//Gives C99 standard integer definitions
 
@@ -55,25 +55,6 @@
 *
 */
 void buildLuts(void);
-
-/*
-* Function:
-* void buildDcCosineLut(float *lutArray)
-*
-* Builds a DC offset cosine function look up table in RAM with the number of elements specified by
-* 'size'. Maximum value = 1, minimum value = 0
-*
-* Inputs:
-* float *lutArray:
-*   A predefined floating point array where the cosine table will be stored
-* uint16_t size:
-*   16bit integer giving the size of the look up table.
-*
-* Returns:
-* none
-*
-*/
-void buildDcCosineLut(float *lutArray, uint16_t size);
 
 /*
 * Function:
