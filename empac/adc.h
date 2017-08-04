@@ -29,7 +29,7 @@
 #define POT2	0x02
 
 //Changes the mux channel while ensuring previous settings remain
-#define setAdcChannel(value)	(ADMUX &= 0xE0|(value & 0x1F))
+#define setAdcChannel(value)	(ADMUX = (ADMUX&0xE0)|value)
 
 //Retrieve 10bit ADC sample
 #define getAdcSample			((ADCH<<8)|ADCL)

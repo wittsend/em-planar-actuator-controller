@@ -48,8 +48,8 @@
 void adcInit(void)
 {
 	ADMUX	
-	=	(1<<REFS0)
-	|	0x01;				//Voltage reference selection.
+	=	(1<<REFS0);
+	//|	0x01;				//Voltage reference selection.
 	ADCSRB
 	=	0x00;					//Free running mode
 	ADCSRA
@@ -58,5 +58,5 @@ void adcInit(void)
 	|	(1<<ADATE)				//Auto triggering Enabled
 	|	0x07;					//1/128th conversion speed
 	
-	//setAdcChannel(POT1);
+	setAdcChannel(POT1);
 }
