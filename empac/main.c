@@ -21,7 +21,7 @@
 //////////////Includes//////////////////////////////////////////////////////////////////////////////
 #include <avr/io.h>			//Hardware specific register definitions
 #include <stdint.h>			//Gives C99 standard integer definitions
-#include <math.h>
+//#include <math.h>
 
 #include "pio.h"
 #include "pwm.h"
@@ -50,21 +50,19 @@ int main(void)
 	setup();
     while(1) 
     {
-		
-		//for(float angle = 0.0; angle < (2.0*M_PI); angle = angle + 2*M_PI/(float)LUT_RESOLUTION)
-		//for(uint16_t angle = 0; angle < LUT_RESOLUTION; angle++)
-		//{
-			////Would use a LUT for the final product rather than on the fly maths
-			////Waveforms are shifted up by 511.5 so the minimum is at 0 and the max is 1023
-			//OCR3A = (int)(1023.0*dcCos(angle));
-			//OCR3B = (int)(1023.0*dcCos(angle));
-			//OCR3C = (int)(1023.0*dcCos(angle));
-			////OCR3A = (int)(511.5*cos(angle) + 511.5);				//Phase A (0 deg shift)
-			////OCR3B = (int)(511.5*cos(angle) + 511.5);				//Phase A (0 deg shift)
-			////OCR3C = (int)(511.5*cos(angle) + 511.5);				//Phase A (0 deg shift)
-			////OCR3B = (int)(511.5*cos(angle + 2*M_PI/3.0) + 511.5);	//Phase B (120 deg shift)
-			////OCR3C = (int)(511.5*cos(angle + 4*M_PI/3.0) + 511.5);	//Phase C (240 deg shift)
-		//}
+		for(float angle = 0.0; angle < 360; angle += DEG_LUT_CONV)
+		//for(int16_t angle = 0; angle < 2048; angle++)
+		{
+			//Would use a LUT for the final product rather than on the fly maths
+			//Waveforms are shifted up by 511.5 so the minimum is at 0 and the max is 1023
+			//OCR3A = dcCos(angle);
+			//OCR3B = dcCos(angle+341);
+			//OCR3C = dcCos(angle+682);
+			OCR3A = dcCosDeg(angle);
+			OCR3B = dcCosDeg(angle+120);
+			OCR3C = dcCosDeg(angle+240);
+			
+		}
 		
     }
 }
@@ -92,18 +90,5 @@ void setup(void)
 	pioInit();
 	xPwmInit();
 	//yPwmInit();		//Not implemented
-	//dcCos function testing
-	//float result0 = dcCosDeg(-360);		//1
-	//float result1 = dcCosDeg(-270);		//0.5
-	//float result2 = dcCosDeg(-180);		//0
-	//float result3 = dcCosDeg(-90);			//0.5
-	//float result4 = dcCosDeg(0);			//1
-	//float result5 = dcCosDeg(90);			//0.5
-	//float result6 = dcCosDeg(180);			//0
-	//float result7 = dcCosDeg(270);			//0.5
-	//float result8 = dcCosDeg(360);			//1
-	//float result9 = dcCosDeg(450);			//0.5
-	//float result10 = dcCosDeg(540);			//0
-	//float result11 = dcCosDeg(630);			//0.5
-	float result12 = dcCosDeg(720);			//1
+	return;
 }
