@@ -54,7 +54,7 @@
 * Macros to handle tasks of mux switching etc.
 *
 */
-void initAdc(void);
+void adcInit(void);
 
 
 #endif /* ADC_H_ */

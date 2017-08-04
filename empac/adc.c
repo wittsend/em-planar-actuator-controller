@@ -45,10 +45,11 @@
 * Macros to handle tasks of mux switching etc.
 *
 */
-void initAdc(void)
+void adcInit(void)
 {
 	ADMUX	
-	=	(1<<REFS0);				//Voltage reference selection.
+	=	(1<<REFS0)
+	|	0x01;				//Voltage reference selection.
 	ADCSRB
 	=	0x00;					//Free running mode
 	ADCSRA
@@ -57,5 +58,5 @@ void initAdc(void)
 	|	(1<<ADATE)				//Auto triggering Enabled
 	|	0x07;					//1/128th conversion speed
 	
-	setAdcChannel(POT1);
+	//setAdcChannel(POT1);
 }
