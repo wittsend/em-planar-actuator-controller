@@ -20,20 +20,45 @@
 #ifndef ADC_H_
 #define ADC_H_
 
-//////////////Includes//////////////////////////////////////////////////////////////////////////////
+/////////////[Includes]/////////////////////////////////////////////////////////////////////////////
 #include <avr/io.h>
+#include <avr/interrupt.h>
+#include "pio.h"
 
-///////////////Defines//////////////////////////////////////////////////////////////////////////////
+//////////////[Defines]/////////////////////////////////////////////////////////////////////////////
 //ADC channel defines
-#define POT1	0x01
-#define POT2	0x02
+#define ADC_POT1_CH				0x01
+#define ADC_POT2_CH				0x02
+#define ADC_PHA_CH				0x03
+#define ADC_PHB_CH				0x04
+#define ADC_PHC_CH				0x05
+
+//ADC clock prescaler settings
+#define ADC_DIV1_CLK			0x00
+#define ADC_DIV2_CLK			0x01
+#define ADC_DIV4_CLK			0x02
+#define ADC_DIV8_CLK			0x03
+#define ADC_DIV16_CLK			0x04
+#define ADC_DIV32_CLK			0x05
+#define ADC_DIV64_CLK			0x06
+#define ADC_DIV128_CLK			0x07
+
+//Hysteretic control thresholds
+#define ADC_UPPER_THRES			768
+#define ADC_LOWER_THRES			256
 
 //Changes the mux channel while ensuring previous settings remain
-#define setAdcChannel(value)	(ADMUX = (ADMUX&0xE0)|value)
+#define adcSetChannel(value)	(ADMUX = (ADMUX&0xE0)|value)
+#define adcGetChannel			(ADMUX & 0x1F)
 
 //Retrieve 10bit ADC sample
-#define getAdcSample			((ADCH<<8)|ADCL)
-//////////////Functions/////////////////////////////////////////////////////////////////////////////
+#define adcLastSample			((ADCH<<8)|ADCL)
+
+//ADC conversion status and control
+#define adcStartConv			(ADCSRA |= (1<<ADSC))
+#define adcConvInProgress		(ADCSRA & (1<<ADSC))
+
+/////////////[Functions]////////////////////////////////////////////////////////////////////////////
 /*
 * Function:
 * void initAdc(void)

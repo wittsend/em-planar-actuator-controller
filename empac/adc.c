@@ -17,13 +17,14 @@
 *
 */
 
-//////////////Includes//////////////////////////////////////////////////////////////////////////////
+/////////////[Includes]/////////////////////////////////////////////////////////////////////////////
 #include "adc.h"
 
-///////////////Defines//////////////////////////////////////////////////////////////////////////////
+/////////////[Defines]//////////////////////////////////////////////////////////////////////////////
 
+/////////////[Global Variables]/////////////////////////////////////////////////////////////////////
 
-//////////////Functions/////////////////////////////////////////////////////////////////////////////
+/////////////[Functions]////////////////////////////////////////////////////////////////////////////
 
 /*
 * Function:
@@ -49,14 +50,68 @@ void adcInit(void)
 {
 	ADMUX	
 	=	(1<<REFS0);
-	//|	0x01;				//Voltage reference selection.
+	//|	0x01;					//Voltage reference selection.
 	ADCSRB
-	=	0x00;					//Free running mode
+	|=	(1<<ADHSM)				//High speed
+	|	(0x00);					//Free running mode
 	ADCSRA
 	=	(1<<ADEN)				//Enable the ADC
 	|	(1<<ADSC)				//Start converting
-	|	(1<<ADATE)				//Auto triggering Enabled
-	|	0x07;					//1/128th conversion speed
+	|	(1<<ADIE)				//Enable interrupt
+	//|	(1<<ADATE)				//Auto triggering Enabled
+	|	(ADC_DIV1_CLK);			//No pre-scaler
 	
-	setAdcChannel(POT1);
+	adcSetChannel(ADC_PHA_CH);
+}
+
+/*
+* Function:
+* ISR(ADC_vect)
+*
+* The analogue to digital converter interrupt service routine. Runs when an ADC conversion is 
+* complete.
+*
+* Inputs:
+* none
+*
+* Returns:
+* none
+*
+* Implementation:
+* This is a state machine that looks at what ADC channel was set to determine the state we are in.
+* The value in the ADC holding register for the current channel is compared to hysteretic threshold
+* values, and the respective coil control pin is set high or low depending on whether the ADC
+* was below or above the thresholds. When finished, the adcChannel is changed to the next channel
+* and the conversion is started again.
+*
+*/
+ISR(ADC_vect)
+{
+	switch(adcGetChannel)
+	{
+		case ADC_PHA_CH:
+			if(adcLastSample > ADC_UPPER_THRES)
+				pioPhaseAOff;
+			if(adcLastSample < ADC_LOWER_THRES)
+				pioPhaseAOn;
+			adcSetChannel(ADC_PHB_CH);
+			break;
+
+		case ADC_PHB_CH:
+			if(adcLastSample > ADC_UPPER_THRES)
+				pioPhaseBOff;
+			if(adcLastSample < ADC_LOWER_THRES)
+				pioPhaseBOn;
+			adcSetChannel(ADC_PHC_CH);
+			break;
+
+		case ADC_PHC_CH:
+			if(adcLastSample > ADC_UPPER_THRES)
+				pioPhaseCOff;
+			if(adcLastSample < ADC_LOWER_THRES)
+				pioPhaseCOn;
+			adcSetChannel(ADC_PHA_CH);
+			break;
+	}
+	adcStartConv;
 }

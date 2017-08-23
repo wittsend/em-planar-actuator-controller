@@ -18,8 +18,9 @@
 *
 */
 
-//////////////Includes//////////////////////////////////////////////////////////////////////////////
+/////////////[Includes]/////////////////////////////////////////////////////////////////////////////
 #include <avr/io.h>			//Hardware specific register definitions
+#include <avr/interrupt.h>	//Interrupt support
 #include <stdint.h>			//Gives C99 standard integer definitions
 //#include <math.h>
 
@@ -28,7 +29,7 @@
 #include "adc.h"
 #include "cosine_lut.h"
 
-///////////////Defines//////////////////////////////////////////////////////////////////////////////
+//////////////[Defines]/////////////////////////////////////////////////////////////////////////////
 //Base phase relationships:
 //Cosine table phase relationships
 #define PHA			0
@@ -43,7 +44,7 @@
 #define PHB_RAD		2.094395
 #define PHC_RAD		4.188790
 
-//////////////Functions/////////////////////////////////////////////////////////////////////////////
+/////////////[Functions]////////////////////////////////////////////////////////////////////////////
 /*
 * Function:
 * void setup(void)
@@ -63,11 +64,13 @@
 */
 void setup(void)
 {
-	buildLuts();
+	//buildLuts();
 	pioInit();
-	xPwmInit();
+	//xPwmInit();
 	//yPwmInit();		//Not implemented
 	adcInit();
+	
+	sei();				//Enable global interrupts
 	return;
 }
 
@@ -91,16 +94,16 @@ int main(void)
 {
 	setup();
 	
-	uint16_t angle = 0;
+	//uint16_t angle = 0;
     while(1) 
     {
-			angle = getAdcSample;
+			//angle = adcLastSample;
 
 			//Would use a LUT for the final product rather than on the fly maths
 			//Waveforms are shifted up by 511.5 so the minimum is at 0 and the max is 1023
-			OCR3A = dcCos(angle+PHA);
-			OCR3B = dcCos(angle+PHB);
-			OCR3C = dcCos(angle+PHC);
+			//OCR3A = dcCos(angle+PHA);
+			//OCR3B = dcCos(angle+PHB);
+			//OCR3C = dcCos(angle+PHC);
 			//OCR3A = dcCosDeg(angle);
 			//OCR3B = dcCosDeg(angle+120);
 			//OCR3C = dcCosDeg(angle+240);
