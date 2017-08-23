@@ -103,7 +103,7 @@ uint16_t dcCosDeg(float degrees)
 {
 	degrees = fabs(degrees);				//Cosine function is symmetrical, so invert if angle is
 											//less than 0.
-	while(degrees > 360.0)					//If table value is out of range, keep subtracting 360
+	while(degrees >= 360.0)					//If table value is out of range, keep subtracting 360
 		degrees -= 360.0;					//until its in range.
 	
 	uint16_t tableElement = round(DEG_LUT_CONV*degrees);
@@ -134,7 +134,7 @@ uint16_t dcCosRad(float radians)
 {
 	radians = fabs(radians);				//Cosine function is symmetrical, so invert if angle is
 											//less than 0.
-	while(radians > TWO_PI)					//If table value is out of range, keep subtracting 2pi
+	while(radians >= TWO_PI)					//If table value is out of range, keep subtracting 2pi
 		radians -= TWO_PI;					//until its in range.
 
 	uint16_t tableElement = round(RAD_LUT_CONV*radians);
@@ -165,7 +165,7 @@ uint16_t dcCos(int16_t tableElement)
 {
 	uint16_t e = abs(tableElement);			//Cosine function is symmetrical, so invert if angle is
 											//less than 0.
-	while(e > LUT_RESOLUTION)				//If table value is out of range, scale it down so its
+	while(e >= LUT_RESOLUTION)				//If table value is out of range, scale it down so its
 		e -= LUT_RESOLUTION;				//in range.
 
 	return dcCosTablePWM[e];

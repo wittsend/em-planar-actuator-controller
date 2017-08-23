@@ -1,7 +1,7 @@
 /*
 * formatting.c
 *
-* Author : Matthew Witt (wittsend86@gmail.com)
+* Author : Matthew Witt (pxf5695@autuni.ac.nz)
 * Created: 03/08/2017
 * 
 * Project Repository:https://github.com/wittsend/em-planar-actuator-controller
@@ -34,9 +34,20 @@
 * void funcName(void)
 *
 */ 
-//^^Template file header
+///////////////Includes/////////////////////////////////////////////////////////////////////////////
 
+#include <libHeader1>
 
+///////////////Defines//////////////////////////////////////////////////////////////////////////////
+
+//Tabs keep values in line and easy to read
+#define macroOne	(REG_PIOB_CODR |= (1<<12))	//Macros camelCase because they are executing code
+#define macroTwo	(REG_PIOB_SODR |= (1<<12))
+//Constant values should be decimal or hex form. Not binary.
+//Values can be converted with programmer mode in windows calculator quite easily.
+#define CONST_ONE	0x00			//Constants use CAPS_UNDERSCORE_SPACE_FORMAT
+
+///////////////Functions////////////////////////////////////////////////////////////////////////////
 /*
 * Function: 
 * [function declaration]
@@ -57,24 +68,6 @@
 * [Ideas for improvements that are yet to be made](optional)
 *
 */
-//^^Template c file function header
-
-//^^H file function header will be the same without the implementation/improvement section
-
-///////////////Includes/////////////////////////////////////////////////////////////////////////////
-
-#include <libHeader1>
-
-///////////////Defines//////////////////////////////////////////////////////////////////////////////
-
-//Tabs keep values in line and easy to read
-#define macroOne	(REG_PIOB_CODR |= (1<<12))	//Macros camelCase because they are executing code
-#define macroTwo	(REG_PIOB_SODR |= (1<<12))
-//Constant values should be decimal or hex form. Not binary.
-//Values can be converted with programmer mode in windows calculator quite easily.
-#define CONST_ONE	0x00			//Constants use CAPS_UNDERSCORE_SPACE_FORMAT
-
-///////////////Functions////////////////////////////////////////////////////////////////////////////
 
 /*
 * Function: 

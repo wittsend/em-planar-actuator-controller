@@ -25,22 +25,23 @@
 
 #include "pio.h"
 #include "pwm.h"
+#include "adc.h"
 #include "cosine_lut.h"
 
 ///////////////Defines//////////////////////////////////////////////////////////////////////////////
 //Base phase relationships:
 //Cosine table phase relationships
-#define PHA		0
-#define PHB		341
-#define PHC		682
+#define PHA			0
+#define PHB			341
+#define PHC			682
 //Phase relationships in degrees
-#define PHA_DEG	0
-#define PHB_DEG 120
-#define PHC_DEG 240
+#define PHA_DEG		0
+#define PHB_DEG		120
+#define PHC_DEG		240
 //Phase relationships in radians
-#define PHA_RAD 0
-#define PHB_RAD 2.094395
-#define PHC_RAD 4.188790
+#define PHA_RAD		0
+#define PHB_RAD		2.094395
+#define PHC_RAD		4.188790
 
 //////////////Functions/////////////////////////////////////////////////////////////////////////////
 /*
@@ -66,6 +67,7 @@ void setup(void)
 	pioInit();
 	xPwmInit();
 	//yPwmInit();		//Not implemented
+	adcInit();
 	return;
 }
 
@@ -88,11 +90,12 @@ void setup(void)
 int main(void)
 {
 	setup();
+	
+	uint16_t angle = 0;
     while(1) 
     {
-		//for(float angle = 0.0; angle < 360.0; angle += DEG_LUT_CONV)
-		for(int16_t angle = 0; angle < 1024; angle++)
-		{
+			angle = getAdcSample;
+
 			//Would use a LUT for the final product rather than on the fly maths
 			//Waveforms are shifted up by 511.5 so the minimum is at 0 and the max is 1023
 			OCR3A = dcCos(angle+PHA);
@@ -101,7 +104,7 @@ int main(void)
 			//OCR3A = dcCosDeg(angle);
 			//OCR3B = dcCosDeg(angle+120);
 			//OCR3C = dcCosDeg(angle+240);
-		}
+
     }
 }
 
