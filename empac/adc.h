@@ -13,7 +13,7 @@
 * Relevant reference materials or datasheets if applicable
 *
 * Functions:
-* void funcName(void)
+* void adcInit(void)
 *
 */
 
@@ -27,11 +27,12 @@
 
 //////////////[Defines]/////////////////////////////////////////////////////////////////////////////
 //ADC channel defines
+#define ADC_LDR_CH				0x00
 #define ADC_POT1_CH				0x01
 #define ADC_POT2_CH				0x02
-#define ADC_PHA_CH				0x03
-#define ADC_PHB_CH				0x04
-#define ADC_PHC_CH				0x05
+#define ADC_PHA_CH				0x01	//PinA0
+#define ADC_PHB_CH				0x02	//PinA1
+#define ADC_PHC_CH				0x03	//PinA2
 
 //ADC clock prescaler settings
 #define ADC_DIV1_CLK			0x00
@@ -44,15 +45,15 @@
 #define ADC_DIV128_CLK			0x07
 
 //Hysteretic control thresholds
-#define ADC_UPPER_THRES			768
-#define ADC_LOWER_THRES			256
+#define ADC_UPPER_THRES			160
+#define ADC_LOWER_THRES			100
 
 //Changes the mux channel while ensuring previous settings remain
 #define adcSetChannel(value)	(ADMUX = (ADMUX&0xE0)|value)
 #define adcGetChannel			(ADMUX & 0x1F)
 
 //Retrieve 10bit ADC sample
-#define adcLastSample			((ADCH<<8)|ADCL)
+#define adcLastSample			(ADCH)
 
 //ADC conversion status and control
 #define adcStartConv			(ADCSRA |= (1<<ADSC))

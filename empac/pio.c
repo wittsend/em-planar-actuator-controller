@@ -50,6 +50,7 @@ void pioInit(void)
 	PORTE = 0x00;			//Set mux to 0
 #endif
 	
+	DDRA = 0x00;			//PORTA for input
 	DDRC = 0xFF;			//PORTC for output
 	PORTC = 0x00;			//Switch all LEDs off initially
 }

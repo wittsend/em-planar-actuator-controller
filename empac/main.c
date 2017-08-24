@@ -95,6 +95,12 @@ int main(void)
 	setup();
 	
 	//uint16_t angle = 0;
+	
+	uint16_t pot1 = 0;
+	uint16_t pot2 = 0;
+	uint16_t ldr = 0;
+	uint8_t currentChannel = 0;
+	uint16_t currentSample = 0;
     while(1) 
     {
 			//angle = adcLastSample;
@@ -107,6 +113,27 @@ int main(void)
 			//OCR3A = dcCosDeg(angle);
 			//OCR3B = dcCosDeg(angle+120);
 			//OCR3C = dcCosDeg(angle+240);
+
+				//currentChannel = adcGetChannel;
+				//currentSample = adcLastSample;
+				//switch(currentChannel)
+				//{
+					//case ADC_LDR_CH:
+						//adcSetChannel(ADC_POT1_CH);
+						//ldr = currentSample;
+						//break;
+//
+					//case ADC_POT1_CH:
+						//adcSetChannel(ADC_POT2_CH);
+						//pot1 = currentSample;
+						//break;
+//
+					//case ADC_POT2_CH:
+						//adcSetChannel(ADC_LDR_CH);
+						//pot2 = currentSample;
+						//break;
+				//}
+				//adcStartConv;
 
     }
 }

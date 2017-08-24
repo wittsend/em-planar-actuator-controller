@@ -13,7 +13,8 @@
 * Relevant reference materials or datasheets if applicable
 *
 * Functions:
-* void funcName(void)
+* void adcInit(void)
+* ISR(ADC_vect)
 *
 */
 
@@ -49,7 +50,8 @@
 void adcInit(void)
 {
 	ADMUX	
-	=	(1<<REFS0);
+	=	(1<<REFS0)
+	|	(1<<ADLAR);
 	//|	0x01;					//Voltage reference selection.
 	ADCSRB
 	|=	(1<<ADHSM)				//High speed
@@ -59,7 +61,7 @@ void adcInit(void)
 	|	(1<<ADSC)				//Start converting
 	|	(1<<ADIE)				//Enable interrupt
 	//|	(1<<ADATE)				//Auto triggering Enabled
-	|	(ADC_DIV1_CLK);			//No pre-scaler
+	|	(ADC_DIV8_CLK);			//1MHz ADC clock
 	
 	adcSetChannel(ADC_PHA_CH);
 }
@@ -87,31 +89,36 @@ void adcInit(void)
 */
 ISR(ADC_vect)
 {
+	//uint8_t currCh = adcGetChannel;
+	//uint16_t sample = adcLastSample;
+	PORTC ^= (1<<0);
 	switch(adcGetChannel)
 	{
 		case ADC_PHA_CH:
-			if(adcLastSample > ADC_UPPER_THRES)
-				pioPhaseAOff;
-			if(adcLastSample < ADC_LOWER_THRES)
-				pioPhaseAOn;
-			adcSetChannel(ADC_PHB_CH);
+			adcSetChannel(ADC_PHA_CH);
+			//if(adcLastSample > ADC_UPPER_THRES)
+				//pioPhaseAOff;
+			//if(adcLastSample < ADC_LOWER_THRES)
+				//pioPhaseAOn;
 			break;
 
 		case ADC_PHB_CH:
-			if(adcLastSample > ADC_UPPER_THRES)
-				pioPhaseBOff;
-			if(adcLastSample < ADC_LOWER_THRES)
-				pioPhaseBOn;
 			adcSetChannel(ADC_PHC_CH);
+			//if(adcLastSample > ADC_UPPER_THRES)
+				//pioPhaseBOff;
+			//if(adcLastSample < ADC_LOWER_THRES)
+				//pioPhaseBOn;
 			break;
 
 		case ADC_PHC_CH:
-			if(adcLastSample > ADC_UPPER_THRES)
-				pioPhaseCOff;
-			if(adcLastSample < ADC_LOWER_THRES)
-				pioPhaseCOn;
 			adcSetChannel(ADC_PHA_CH);
+			//if(adcLastSample > ADC_UPPER_THRES)
+				//pioPhaseCOff;
+			//if(adcLastSample < ADC_LOWER_THRES)
+				//pioPhaseCOn;
+
 			break;
 	}
 	adcStartConv;
+	PORTC ^= (1<<0);
 }
