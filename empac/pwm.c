@@ -58,7 +58,7 @@ void xPwmInit(void)
 	|	(0x03<<WGM30);		//WG mode 7 Fast 10bit PWM
 	TCCR3B
 	=	(0x01<<WGM32)		//WG mode 7 Fast 10bit PWM
-	|	(0x01<<CS30);		//clk/8
+	|	(0x01<<CS30);		//clk/1 (7.8kHz PWM)
 	
 	OCR3A = 0x003F;			//Initial values for OCR3
 	OCR3B = 0x003F;

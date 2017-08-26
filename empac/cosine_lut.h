@@ -15,9 +15,9 @@
 * Functions:
 * void buildLuts(void)
 * void buildDcCosineLutPWM(uint16_t *lutArray, uint16_t size)
-* uint16_t dcCosDeg(float degrees)
-* uint16_t dcCosRad(float radians)
-* uint16_t dcCos(int16_t tableElement)
+* uint16_t pwmDcCosDeg(float degrees)
+* uint16_t pwmDcCosRad(float radians)
+* uint16_t pwmDcCos(int16_t tableElement)
 *
 */
 
@@ -34,7 +34,7 @@
 //Number of elements each look up table has. If each value is a 4 byte float then a 1024 element LUT
 //should take up 4kb (4 * 1024) which is 50% of the available RAM
 #define LUT_RESOLUTION	1024				//10bit look up table
-#define PWM_TOP			1023
+#define PWM_TOP			1023				//PWM top value
 
 //By pre calculating these conversion factors, the program execution ought to speed up.
 #define RAD_LUT_CONV	162.974661	//Radians conversion factor: LUT_RESOLUTION/2/PI
@@ -77,7 +77,7 @@ void buildDcCosineLutPWM(uint16_t *lutArray, uint16_t size);
 
 /*
 * Function:
-* uint16_t dcCosDeg(float degrees)
+* uint16_t pwmDcCosDeg(float degrees)
 *
 * Returns the DC offset cosine function for the given angle in degrees from the look up table.
 * Equivalent to y = 0.5*cos(degrees) + 0.5
@@ -90,11 +90,11 @@ void buildDcCosineLutPWM(uint16_t *lutArray, uint16_t size);
 *   Floating point cosine function value for the given angle
 *
 */
-uint16_t dcCosDeg(float degrees);
+uint16_t pwmDcCosDeg(float degrees);
 
 /*
 * Function:
-* uint16_t dcCosRad(float degrees)
+* uint16_t pwmDcCosRad(float degrees)
 *
 * Returns the DC offset cosine function for the given angle in radians from the look up table.
 * Equivalent to y = 0.5*cos(degrees) + 0.5
@@ -107,11 +107,11 @@ uint16_t dcCosDeg(float degrees);
 *   Floating point cosine function value for the given angle
 *
 */
-uint16_t dcCosRad(float radians);
+uint16_t pwmDcCosRad(float radians);
 
 /*
 * Function:
-* uint16_t dcCosRad(float degrees)
+* uint16_t pwmDcCosRad(float degrees)
 *
 * Returns the DC offset cosine function for the given angle in radians from the look up table.
 * Equivalent to y = 0.5*cos(degrees) + 0.5
@@ -128,6 +128,6 @@ uint16_t dcCosRad(float radians);
 * The cosine value from the look up table is returned.
 *
 */
-uint16_t dcCos(int16_t tableElement);
+uint16_t pwmDcCos(int16_t tableElement);
 
 #endif /* COSINE_LUT_H_ */

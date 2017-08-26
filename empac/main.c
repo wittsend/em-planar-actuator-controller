@@ -98,12 +98,12 @@ int main(void)
 
 			//Would use a LUT for the final product rather than on the fly maths
 			//Waveforms are shifted up by 511.5 so the minimum is at 0 and the max is 1023
-			OCR3A = dcCos(angle+PHA);
-			OCR3B = dcCos(angle+PHB);
-			OCR3C = dcCos(angle+PHC);
-			//OCR3A = dcCosDeg(angle);
-			//OCR3B = dcCosDeg(angle+120);
-			//OCR3C = dcCosDeg(angle+240);
+			OCR3A = pwmDcCos(angle+PHA);
+			OCR3B = pwmDcCos(angle+PHB);
+			OCR3C = pwmDcCos(angle+PHC);
+			//OCR3A = pwmDcCosDeg(angle);
+			//OCR3B = pwmDcCosDeg(angle+120);
+			//OCR3C = pwmDcCosDeg(angle+240);
 
     }
 }
