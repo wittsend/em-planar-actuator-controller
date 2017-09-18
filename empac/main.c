@@ -27,6 +27,7 @@
 #include "pwm.h"
 #include "adc.h"
 #include "cosine_lut.h"
+#include "joystick.h"
 
 ///////////////Defines//////////////////////////////////////////////////////////////////////////////
 //Base phase relationships:
@@ -42,6 +43,25 @@
 #define PHA_RAD		0
 #define PHB_RAD		2.094395
 #define PHC_RAD		4.188790
+
+
+JoystickData jd =
+{
+	.rawMaxX = 1023,
+	.rawMinX = 0,
+	.rawCntX = 512,
+	.deadzoneX = 8,
+	
+	.rawMaxY = 1023,
+	.rawMinY = 0,
+	.rawCntY = 512,
+	.deadzoneY = 8,
+	
+	.outputResolution = 2048,
+	
+	.adcChannelX = ADC_CH_JOYSTICK_X,
+	.adcChannelY = ADC_CH_JOYSTICK_Y
+};
 
 //////////////Functions/////////////////////////////////////////////////////////////////////////////
 /*
@@ -83,7 +103,7 @@ void setup(void)
 * Returns:
 * none
 *
-* Implementation:
+* Implementation
 * TODO:main function implementation.
 *
 */
