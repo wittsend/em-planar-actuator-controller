@@ -14,13 +14,17 @@
 *
 * Functions:
 * void adcInit(void)
+<<<<<<< HEAD
 * uint8_t adcNewData(void)
 * uint16_t adcGetData(uint8_t channel)
 * ISR(ADC_Vect)
+=======
+* ISR(ADC_vect)
+>>>>>>> ADC-current-control-test-code
 *
 */
 
-//////////////Includes//////////////////////////////////////////////////////////////////////////////
+/////////////[Includes]/////////////////////////////////////////////////////////////////////////////
 #include "adc.h"
 
 //////////////[Global variables]////////////////////////////////////////////////////////////////////
@@ -28,8 +32,7 @@ volatile uint8_t adcCurrentChannel = 0;
 volatile uint8_t adcNewDataFlag = 0;		//1 When new data, otherwise 0
 volatile uint16_t adcData[ADC_CHANNELS];	//Stores data from each ADC channel
 
-
-//////////////Functions/////////////////////////////////////////////////////////////////////////////
+/////////////[Functions]////////////////////////////////////////////////////////////////////////////
 
 /*
 * Function:
@@ -55,12 +58,16 @@ void adcInit(void)
 	//|	0x01;					//Voltage reference selection.
 	
 	adcSetChannel(ADC_CH_JOYSTICK_X);
-	
+
+	=	(1<<REFS0)
+	//|	0x01;					//Voltage reference selection.
 	ADCSRB
-	=	0x00;					//Free running mode
+	|=	(1<<ADHSM)				//High speed
+	|	(0x00);					//Free running mode
 	ADCSRA
 	=	(1<<ADEN)				//Enable the ADC
 	|	(1<<ADSC)				//Start converting
+	|	(1<<ADIE)				//Enable interrupt
 	//|	(1<<ADATE)				//Auto triggering Enabled
 	|	0x07;					//1/128th conversion speed
 }
