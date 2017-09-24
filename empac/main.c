@@ -18,17 +18,21 @@
 *
 */
 
-//////////////Includes//////////////////////////////////////////////////////////////////////////////
+/////////////[Includes]/////////////////////////////////////////////////////////////////////////////
 #include <avr/io.h>			//Hardware specific register definitions
+#include <avr/interrupt.h>	//Interrupt support
 #include <stdint.h>			//Gives C99 standard integer definitions
+
 //#include <math.h>
 
 #include "pio.h"
 #include "pwm.h"
+#include "timer.h"
 #include "adc.h"
 #include "cosine_lut.h"
+#include "joystick.h"
 
-///////////////Defines//////////////////////////////////////////////////////////////////////////////
+//////////////[Defines]/////////////////////////////////////////////////////////////////////////////
 //Base phase relationships:
 //Cosine table phase relationships
 #define PHA			0
@@ -43,7 +47,10 @@
 #define PHB_RAD		2.094395
 #define PHC_RAD		4.188790
 
-//////////////Functions/////////////////////////////////////////////////////////////////////////////
+//////////////[Global Variables]////////////////////////////////////////////////////////////////////
+
+
+/////////////[Functions]////////////////////////////////////////////////////////////////////////////
 /*
 * Function:
 * void setup(void)
@@ -65,9 +72,12 @@ void setup(void)
 {
 	buildLuts();
 	pioInit();
+	timer2Init();
 	xPwmInit();
 	//yPwmInit();		//Not implemented
 	adcInit();
+	
+	sei();				//Enable global interrupts
 	return;
 }
 
@@ -83,28 +93,49 @@ void setup(void)
 * Returns:
 * none
 *
-* Implementation:
+* Implementation
 * TODO:main function implementation.
 *
 */
 int main(void)
 {
+	//Initialise all hardware and build LUTs
 	setup();
 	
-	uint16_t angle = 0;
+	//Create Joystick object
+	JoystickData2D jd =
+	{
+		.numOfAxes = 2,
+		.axis =
+		{
+			[X].rawMax		= 1023,
+			[X].rawMin		= 0,
+			[X].rawCnt		= 512,
+			[X].deadzone	= 16,
+			[X].adcChannel	= ADC_CH_JOYSTICK_X,
+			[X].outputMax	= 100,
+			
+			[Y].rawMax		= 1023,
+			[Y].rawMin		= 0,
+			[Y].rawCnt		= 512,
+			[Y].deadzone	= 16,
+			[Y].adcChannel	= ADC_CH_JOYSTICK_Y,
+			[Y].outputMax	= 100
+		}
+	};
+
     while(1) 
     {
-			angle = getAdcSample;
+			//angle = adcLastSample;
 
 			//Would use a LUT for the final product rather than on the fly maths
 			//Waveforms are shifted up by 511.5 so the minimum is at 0 and the max is 1023
-			OCR3A = dcCos(angle+PHA);
-			OCR3B = dcCos(angle+PHB);
-			OCR3C = dcCos(angle+PHC);
-			//OCR3A = dcCosDeg(angle);
-			//OCR3B = dcCosDeg(angle+120);
-			//OCR3C = dcCosDeg(angle+240);
 
+			//OCR3A = pwmDcCos(angle+PHA);
+			//OCR3B = pwmDcCos(angle+PHB);
+			//OCR3C = pwmDcCos(angle+PHC);
+
+		joyUpdate(&jd);		//Fetch new data from joystick.
     }
 }
 

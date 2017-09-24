@@ -19,12 +19,34 @@
 
 #ifndef PIO_H_
 #define PIO_H_
-///////////////Includes/////////////////////////////////////////////////////////////////////////////
+//////////////[Includes]////////////////////////////////////////////////////////////////////////////
 #include <avr/io.h>			//Hardware specific register definitions
 
-///////////////Defines//////////////////////////////////////////////////////////////////////////////
+//////////////[Defines]/////////////////////////////////////////////////////////////////////////////
+//Phase control port and pin definitions
+#define PIO_PHA_PORT	PORTC
+#define PIO_PHB_PORT	PORTC
+#define PIO_PHC_PORT	PORTC
 
-///////////////Functions////////////////////////////////////////////////////////////////////////////
+#define PIO_PHA_PIN		0
+#define PIO_PHB_PIN		1
+#define PIO_PHC_PIN		2
+
+//Phase control macros
+#define pioPhaseAOn		(PIO_PHA_PORT |= (1<<PIO_PHA_PIN))
+#define pioPhaseBOn		(PIO_PHB_PORT |= (1<<PIO_PHB_PIN))
+#define pioPhaseCOn		(PIO_PHC_PORT |= (1<<PIO_PHC_PIN))
+
+#define pioPhaseAOff	(PIO_PHA_PORT &= ~(1<<PIO_PHA_PIN))
+#define pioPhaseBOff	(PIO_PHB_PORT &= ~(1<<PIO_PHB_PIN))
+#define pioPhaseCOff	(PIO_PHC_PORT &= ~(1<<PIO_PHC_PIN))
+
+#define pioPhaseATog	(PIO_PHA_PORT ^= (1<<PIO_PHA_PIN))
+#define pioPhaseBTog	(PIO_PHB_PORT ^= (1<<PIO_PHB_PIN))
+#define pioPhaseCTog	(PIO_PHC_PORT ^= (1<<PIO_PHC_PIN))
+
+
+//////////////[Functions]///////////////////////////////////////////////////////////////////////////
 /*
 * Function:
 * void pioInit(void)
