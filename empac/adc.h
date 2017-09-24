@@ -31,6 +31,7 @@
 #include "pio.h"
 
 //////////////[Defines]/////////////////////////////////////////////////////////////////////////////
+////Constants////
 //ADC channel defines
 #define ADC_LDR_CH				0x00
 #define ADC_POT1_CH				0x01
@@ -43,7 +44,7 @@
 #define ADC_CH_JOYSTICK_Y		0x02
 
 //Number of ADC channels available
-#define ADC_CHANNELS	8
+#define ADC_CHANNELS			8
 
 //ADC clock prescaler settings
 #define ADC_DIV1_CLK			0x00
@@ -55,16 +56,13 @@
 #define ADC_DIV64_CLK			0x06
 #define ADC_DIV128_CLK			0x07
 
-//Hysteretic control thresholds
-#define ADC_UPPER_THRES			160
-#define ADC_LOWER_THRES			100
-
+////Macros////
 //Changes the mux channel while ensuring previous settings remain
 #define adcSetChannel(value)	(ADMUX = (ADMUX&0xE0)|value)
 #define adcGetChannel			(ADMUX & 0x1F)
 
 //Retrieve 10bit ADC sample
-#define adcLastSample			(ADCH)
+#define adcLastSample			(ADC)
 
 //ADC conversion status and control
 #define adcStartConv			(ADCSRA |= (1<<ADSC))

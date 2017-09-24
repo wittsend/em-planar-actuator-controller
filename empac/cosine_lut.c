@@ -24,7 +24,7 @@
 //////////////[Includes]////////////////////////////////////////////////////////////////////////////
 #include "cosine_lut.h"
 
-///////////////Global Variables/////////////////////////////////////////////////////////////////////
+//////////////[Global Variables]////////////////////////////////////////////////////////////////////
 //static uint16_t pwmDcCosTablePWM[LUT_RESOLUTION];	//DC offset cosine PWM LUT
 static int16_t pwmCosTablePWM[LUT_RESOLUTION];			//Cosine PWM LUT
 
@@ -101,13 +101,13 @@ void buildCosineLutPWM(int16_t *lutArray, uint16_t size)
 * values. The values range from 0 to PWM_TOP (DC offset) 
 *
 */
-void buildDcCosineLutPWM(uint16_t *lutArray, uint16_t size)
-{
-	for (uint16_t i = 0; i < size; i++)
-	{
-		lutArray[i] = round(PWM_TOP/2*cos(TWO_PI*i/size) + PWM_TOP/2);
-	}
-}
+//void buildDcCosineLutPWM(uint16_t *lutArray, uint16_t size)
+//{
+	//for (uint16_t i = 0; i < size; i++)
+	//{
+		//lutArray[i] = round(PWM_TOP/2*cos(TWO_PI*i/size) + PWM_TOP/2);
+	//}
+//}
 
 /*
 * Function:
@@ -129,18 +129,18 @@ void buildDcCosineLutPWM(uint16_t *lutArray, uint16_t size)
 * specified by LUT_RESOLUTION by the ratio of the given angle to 360 degrees.
 *
 */
-uint16_t pwmDcCosDeg(float degrees)
-{
-	degrees = fabs(degrees);				//Cosine function is symmetrical, so invert if angle is
-											//less than 0.
-	while(degrees >= 360.0)					//If table value is out of range, keep subtracting 360
-		degrees -= 360.0;					//until its in range.
-	
-	uint16_t tableElement = round(DEG_LUT_CONV*degrees);
-	return pwmDcCosTablePWM[tableElement];
-}
+//uint16_t pwmDcCosDeg(float degrees)
+//{
+	//degrees = fabs(degrees);				//Cosine function is symmetrical, so invert if angle is
+											////less than 0.
+	//while(degrees >= 360.0)					//If table value is out of range, keep subtracting 360
+		//degrees -= 360.0;					//until its in range.
+	//
+	//uint16_t tableElement = round(DEG_LUT_CONV*degrees);
+	//return pwmDcCosTablePWM[tableElement];
+//}
 
-1/*
+/*
 * Function:
 * uint16_t pwmDcCosRad(float radians)
 *
@@ -160,16 +160,16 @@ uint16_t pwmDcCosDeg(float degrees)
 * specified by LUT_RESOLUTION by the ratio of the given angle to 360 degrees.
 *
 */
-uint16_t pwmDcCosRad(float radians)
-{
-	radians = fabs(radians);				//Cosine function is symmetrical, so invert if angle is
-											//less than 0.
-	while(radians >= TWO_PI)					//If table value is out of range, keep subtracting 2pi
-		radians -= TWO_PI;					//until its in range.
-
-	uint16_t tableElement = round(RAD_LUT_CONV*radians);
-	return pwmDcCosTablePWM[tableElement];	
-}
+//uint16_t pwmDcCosRad(float radians)
+//{
+	//radians = fabs(radians);				//Cosine function is symmetrical, so invert if angle is
+											////less than 0.
+	//while(radians >= TWO_PI)					//If table value is out of range, keep subtracting 2pi
+		//radians -= TWO_PI;					//until its in range.
+//
+	//uint16_t tableElement = round(RAD_LUT_CONV*radians);
+	//return pwmDcCosTablePWM[tableElement];	
+//}
 
 /*
 * Function:
@@ -191,15 +191,15 @@ uint16_t pwmDcCosRad(float radians)
 * The cosine value from the look up table is returned.
 *
 */
-uint16_t pwmDcCos(int16_t tableElement)
-{
-	uint16_t e = abs(tableElement);			//Cosine function is symmetrical, so invert if angle is
-											//less than 0.
-	while(e >= LUT_RESOLUTION)				//If table value is out of range, scale it down so its
-		e -= LUT_RESOLUTION;				//in range.
-
-	return pwmDcCosTablePWM[e];
-}
+//uint16_t pwmDcCos(int16_t tableElement)
+//{
+	//uint16_t e = abs(tableElement);			//Cosine function is symmetrical, so invert if angle is
+											////less than 0.
+	//while(e >= LUT_RESOLUTION)				//If table value is out of range, scale it down so its
+		//e -= LUT_RESOLUTION;				//in range.
+//
+	//return pwmDcCosTablePWM[e];
+//}
 
 /*
 * Function:

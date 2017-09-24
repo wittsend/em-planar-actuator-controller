@@ -18,6 +18,9 @@
 * uint16_t pwmDcCosDeg(float degrees)
 * uint16_t pwmDcCosRad(float radians)
 * uint16_t pwmDcCos(int16_t tableElement)
+* uint16_t pwmCosDeg(float degrees)
+* uint16_t pwmCosRad(float radians)
+* uint16_t pwmCos(int16_t tableElement)
 *
 */
 
@@ -58,6 +61,29 @@ void buildLuts(void);
 
 /*
 * Function:
+* void buildCosineLutPWM(uint16_t *lutArray)
+*
+* Builds a cosine function look up table in RAM with the number of elements specified by
+* 'size'. Maximum value = PWM_TOP, minimum value = -PWM_TOP.
+*
+* Inputs:
+* uint16_t *lutArray:
+*   A predefined floating point array where the cosine table will be stored
+* uint16_t size:
+*   16bit integer giving the size of the look up table.
+*
+* Returns:
+* none
+*
+* Implementation:
+* A for loop counts from 0 to size, populating the lookup table with amplitude shifted cosine
+* values. The values range from 0 to PWM_TOP (DC offset)
+*
+*/
+void buildCosineLutPWM(int16_t *lutArray, uint16_t size);
+
+/*
+* Function:
 * void buildDcCosineLutPWM(uint16_t *lutArray)
 *
 * Builds a DC offset cosine function look up table in RAM with the number of elements specified by
@@ -73,7 +99,7 @@ void buildLuts(void);
 * none
 *
 */
-void buildDcCosineLutPWM(uint16_t *lutArray, uint16_t size);
+//void buildDcCosineLutPWM(uint16_t *lutArray, uint16_t size);
 
 /*
 * Function:
@@ -90,7 +116,7 @@ void buildDcCosineLutPWM(uint16_t *lutArray, uint16_t size);
 *   Floating point cosine function value for the given angle
 *
 */
-uint16_t pwmDcCosDeg(float degrees);
+//uint16_t pwmDcCosDeg(float degrees);
 
 /*
 * Function:
@@ -107,7 +133,7 @@ uint16_t pwmDcCosDeg(float degrees);
 *   Floating point cosine function value for the given angle
 *
 */
-uint16_t pwmDcCosRad(float radians);
+//uint16_t pwmDcCosRad(float radians);
 
 /*
 * Function:
@@ -128,6 +154,73 @@ uint16_t pwmDcCosRad(float radians);
 * The cosine value from the look up table is returned.
 *
 */
-uint16_t pwmDcCos(int16_t tableElement);
+//uint16_t pwmDcCos(int16_t tableElement);
+
+/*
+* Function:
+* uint16_t pwmCosDeg(float degrees)
+*
+* Returns the cosine function for the given angle in degrees from the look up table.
+* Equivalent to y = PWM_TOP*cos(degrees)
+*
+* Inputs:
+* float degrees:
+*   Angle in degrees for which to return a value
+*
+* Returns:
+*   Floating point DC offset cosine function value for the given angle (0-1023)
+*
+* Implementation:
+* The angle is checked to make sure it is within range of the LUT, and corrected if necessary.
+* The row from the look up table is derived by multiplying the maximum number of table elements
+* specified by LUT_RESOLUTION by the ratio of the given angle to 360 degrees.
+*
+*/
+uint16_t pwmCosDeg(float degrees);
+
+/*
+* Function:
+* uint16_t pwmCosRad(float radians)
+*
+* Returns the cosine function for the given angle in radians from the look up table.
+* Equivalent to y = PWM_TOP*cos(radians)
+*
+* Inputs:
+* float radians:
+*   Angle in radians for which to return a value
+*
+* Returns:
+*   Floating point DC offset cosine function value for the given angle (0-1023)
+*
+* Implementation:
+* The angle is checked to make sure it is within range of the LUT, and corrected if necessary.
+* The row from the look up table is derived by multiplying the maximum number of table elements
+* specified by LUT_RESOLUTION by the ratio of the given angle to 360 degrees.
+*
+*/
+uint16_t pwmCosRad(float radians);
+
+/*
+* Function:
+* uint16_t pwmCos(int16_t tableElement)
+*
+* Returns the cosine function for the given look up table element.
+* Equivalent to y = PWM_TOP*cos(LUT Element)
+*
+* Inputs:
+* int16_t tableElement:
+*   Table row number from which to retrieve a value (Valid values are from 0 to 1023. Number
+*   wrapping occurs if an out of range value is passed)
+*
+* Returns:
+*   Floating point cosine function value stored in the given table element
+*
+* Implementation:
+* The element is checked to make sure it is within range of the LUT, and corrected if necessary.
+* The cosine value from the look up table is returned.
+*
+*/
+uint16_t pwmCos(int16_t tableElement);
+
 
 #endif /* COSINE_LUT_H_ */

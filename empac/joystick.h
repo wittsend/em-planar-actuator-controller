@@ -13,7 +13,7 @@
 * Relevant reference materials or datasheets if applicable
 *
 * Functions:
-* void funcName(void)
+* void joyUpdate(JoystickData2D *jd)
 *
 */
 
@@ -21,58 +21,43 @@
 #define JOYSTICK_H_
 
 //////////////[Defines]/////////////////////////////////////////////////////////////////////////////
-#define JOYSTICK_LUT_SIZE			1024
+#define X							0
+#define Y							1
 
 ///////////////[Type Definitions]///////////////////////////////////////////////////////////////////
-typedef struct JoystickData
+typedef struct JoystickAxis
 {
-	uint16_t rawMaxX;
-	uint16_t rawMinX;
-	uint16_t rawCntX;
-	uint16_t deadzoneX;
+	uint16_t rawMax;
+	uint16_t rawMin;
+	uint16_t rawCnt;
+	uint16_t deadzone;	
+	uint16_t raw;
+	uint8_t adcChannel;
+	uint16_t outputMax;
+	int16_t output;
+} JoystickAxis;
 
-	uint16_t rawMaxY;
-	uint16_t rawMinY;
-	uint16_t rawCntY;
-	uint16_t deadzoneY;
-	
-	uint16_t rawX;
-	uint16_t rawY;
-	
-	uint16_t outputResolution;
-	uint16_t outputX[JOYSTICK_LUT_SIZE];
-	uint16_t outputY[JOYSTICK_LUT_SIZE];
-	
-	uint8_t adcChannelX;
-	uint8_t adcChannelY;
-	
-} JoystickData;
+typedef struct JoystickData2D
+{
+	const uint8_t numOfAxes;	//Set to 2 when initialised.
+	JoystickAxis axis[2];	//2D joystick has two axes, X and Y
+} JoystickData2D;
 
 ///////////////[Functions]//////////////////////////////////////////////////////////////////////////
 /*
 * Function:
-* [function declaration]
+* void joyUpdate(JoystickData2D *jd)
 *
-* [brief purpose of function]
+* This function is used to poll the ADC for new joystick data.
 *
 * Inputs:
-* [input arguments and any relevant explanation]
+* JoystickData2D *jd:
+*   Pointer to a JoystickData2D object that will be polled.
 *
 * Returns:
-* [return values and any relevant explanation]
-*
-* Implementation:
-* [explain key steps of function]
-* [use heavy detail for anything complicated]
-*
-* Improvements:
-* [Ideas for improvements that are yet to be made](optional)
+* none
 *
 */
-
-
-
-
-
+void joyUpdate(JoystickData2D *jd);
 
 #endif /* JOYSTICK_H_ */

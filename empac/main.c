@@ -22,10 +22,12 @@
 #include <avr/io.h>			//Hardware specific register definitions
 #include <avr/interrupt.h>	//Interrupt support
 #include <stdint.h>			//Gives C99 standard integer definitions
+
 //#include <math.h>
 
 #include "pio.h"
 #include "pwm.h"
+#include "timer.h"
 #include "adc.h"
 #include "cosine_lut.h"
 #include "joystick.h"
@@ -45,23 +47,8 @@
 #define PHB_RAD		2.094395
 #define PHC_RAD		4.188790
 
-JoystickData jd =
-{
-	.rawMaxX = 1023,
-	.rawMinX = 0,
-	.rawCntX = 512,
-	.deadzoneX = 8,
-	
-	.rawMaxY = 1023,
-	.rawMinY = 0,
-	.rawCntY = 512,
-	.deadzoneY = 8,
-	
-	.outputResolution = 2048,
-	
-	.adcChannelX = ADC_CH_JOYSTICK_X,
-	.adcChannelY = ADC_CH_JOYSTICK_Y
-};
+//////////////[Global Variables]////////////////////////////////////////////////////////////////////
+
 
 /////////////[Functions]////////////////////////////////////////////////////////////////////////////
 /*
@@ -83,9 +70,10 @@ JoystickData jd =
 */
 void setup(void)
 {
-	//buildLuts();
+	buildLuts();
 	pioInit();
-	//xPwmInit();
+	timer2Init();
+	xPwmInit();
 	//yPwmInit();		//Not implemented
 	adcInit();
 	
@@ -111,15 +99,31 @@ void setup(void)
 */
 int main(void)
 {
+	//Initialise all hardware and build LUTs
 	setup();
 	
-	//uint16_t angle = 0;
-	
-	uint16_t pot1 = 0;
-	uint16_t pot2 = 0;
-	uint16_t ldr = 0;
-	uint8_t currentChannel = 0;
-	uint16_t currentSample = 0;
+	//Create Joystick object
+	JoystickData2D jd =
+	{
+		.numOfAxes = 2,
+		.axis =
+		{
+			[X].rawMax		= 1023,
+			[X].rawMin		= 0,
+			[X].rawCnt		= 512,
+			[X].deadzone	= 16,
+			[X].adcChannel	= ADC_CH_JOYSTICK_X,
+			[X].outputMax	= 100,
+			
+			[Y].rawMax		= 1023,
+			[Y].rawMin		= 0,
+			[Y].rawCnt		= 512,
+			[Y].deadzone	= 16,
+			[Y].adcChannel	= ADC_CH_JOYSTICK_Y,
+			[Y].outputMax	= 100
+		}
+	};
+
     while(1) 
     {
 			//angle = adcLastSample;
@@ -127,11 +131,11 @@ int main(void)
 			//Would use a LUT for the final product rather than on the fly maths
 			//Waveforms are shifted up by 511.5 so the minimum is at 0 and the max is 1023
 
-			OCR3A = pwmDcCos(angle+PHA);
-			OCR3B = pwmDcCos(angle+PHB);
-			OCR3C = pwmDcCos(angle+PHC);
+			//OCR3A = pwmDcCos(angle+PHA);
+			//OCR3B = pwmDcCos(angle+PHB);
+			//OCR3C = pwmDcCos(angle+PHC);
 
-
+		joyUpdate(&jd);		//Fetch new data from joystick.
     }
 }
 

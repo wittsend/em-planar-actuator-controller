@@ -28,7 +28,7 @@
 #include "adc.h"
 
 //////////////[Global variables]////////////////////////////////////////////////////////////////////
-volatile uint8_t adcCurrentChannel = 0;
+volatile uint8_t adcCurrentChannel;
 volatile uint8_t adcNewDataFlag = 0;		//1 When new data, otherwise 0
 volatile uint16_t adcData[ADC_CHANNELS];	//Stores data from each ADC channel
 
@@ -58,9 +58,8 @@ void adcInit(void)
 	//|	0x01;					//Voltage reference selection.
 	
 	adcSetChannel(ADC_CH_JOYSTICK_X);
+	adcCurrentChannel = ADC_CH_JOYSTICK_X;
 
-	=	(1<<REFS0)
-	//|	0x01;					//Voltage reference selection.
 	ADCSRB
 	|=	(1<<ADHSM)				//High speed
 	|	(0x00);					//Free running mode
@@ -145,7 +144,7 @@ uint16_t adcGetData(uint8_t channel)
 */
 ISR(ADC_vect)
 {
-	adcData[adcCurrentChannel] = adcGetSample;
+	adcData[adcCurrentChannel] = adcLastSample;
 	
 	switch(adcCurrentChannel)
 	{
