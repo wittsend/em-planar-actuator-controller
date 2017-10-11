@@ -24,7 +24,6 @@
 #include <stdint.h>			//Gives C99 standard integer definitions
 
 //#include <math.h>
-
 #include "pio.h"
 #include "pwm.h"
 #include "timer.h"
@@ -72,7 +71,7 @@ void setup(void)
 {
 	buildLuts();
 	pioInit();
-	timer2Init();
+	//timer2Init();
 	xPwmInit();
 	//yPwmInit();		//Not implemented
 	adcInit();
@@ -124,17 +123,52 @@ int main(void)
 		}
 	};
 
+	int16_t angleXA = 0;
+	int16_t angleXB = 0;
+	int16_t angleXC = 0;
+	int16_t angleYA = 0;
+	int16_t angleYB = 0;
+	int16_t angleYC = 0;
+
     while(1) 
     {
-			//angle = adcLastSample;
+		//Update the Phase A angles
+		angleXA += jd.axis[X].output;
+		angleYA += jd.axis[Y].output;
+		
+		//If the angles are getting too big, scale them down
+		while(angleXA >= LUT_RESOLUTION)
+			angleXA -= LUT_RESOLUTION;
+		while(angleXA <= LUT_RESOLUTION)
+			angleXA += LUT_RESOLUTION;
+		while(angleYA >= LUT_RESOLUTION)
+			angleXA -= LUT_RESOLUTION;
+		while(angleYA <= LUT_RESOLUTION)
+			angleYA += LUT_RESOLUTION;
+		
+		//Calculate phase angles
+		angleXB = angleXA + PHB;
+		angleXC = angleXB + PHC;
+		angleYB = angleYA + PHB;
+		angleYC = angleYB + PHC;
 
-			//Would use a LUT for the final product rather than on the fly maths
-			//Waveforms are shifted up by 511.5 so the minimum is at 0 and the max is 1023
+		//Set the polarity pins
+		if(pwmCos(angleXA) < 0) pioXPhaseAOff; else pioXPhaseAOn;
+		if(pwmCos(angleXB) < 0) pioXPhaseBOff; else pioXPhaseBOn;
+		if(pwmCos(angleXC) < 0) pioXPhaseCOff; else pioXPhaseCOn;
+		if(pwmCos(angleYA) < 0) pioYPhaseAOff; else pioYPhaseAOn;
+		if(pwmCos(angleYB) < 0) pioYPhaseBOff; else pioYPhaseBOn;
+		if(pwmCos(angleYC) < 0) pioYPhaseCOff; else pioYPhaseCOn;
 
-			//OCR3A = pwmDcCos(angle+PHA);
-			//OCR3B = pwmDcCos(angle+PHB);
-			//OCR3C = pwmDcCos(angle+PHC);
+		//Set the PWM duty cycles
+		pwmXPHA = abs(pwmCos(angleXA));
+		pwmXPHB = abs(pwmCos(angleXB));
+		pwmXPHC = abs(pwmCos(angleXC));
+		pwmYPHA = abs(pwmCos(angleYA));
+		pwmYPHB = abs(pwmCos(angleYB));
+		pwmYPHC = abs(pwmCos(angleYC));
 
+		//Poll the Joystick
 		joyUpdate(&jd);		//Fetch new data from joystick.
     }
 }

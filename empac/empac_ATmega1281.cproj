@@ -38,10 +38,9 @@
         </dependencies>
       </framework-data>
     </AsfFrameworkConfig>
-    <avrtool>
-    </avrtool>
+    <avrtool>com.atmel.avrdbg.tool.avrdragon</avrtool>
     <avrtoolserialnumber>00A200022650</avrtoolserialnumber>
-    <avrdeviceexpectedsignature>0x1E9782</avrdeviceexpectedsignature>
+    <avrdeviceexpectedsignature>0x1E9704</avrdeviceexpectedsignature>
     <com_atmel_avrdbg_tool_avrdragon>
       <ToolOptions>
         <InterfaceProperties>

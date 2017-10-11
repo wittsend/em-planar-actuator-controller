@@ -52,5 +52,5 @@ void pioInit(void)
 	
 	DDRA = 0x00;			//PORTA for input
 	DDRC = 0xFF;			//PORTC for output
-	PORTC = 0x00;			//Switch all LEDs off initially
+	PORTC = 0x00;			//Switch all Outputs off initially
 }
