@@ -36,12 +36,10 @@
 #define ADC_LDR_CH				0x00
 #define ADC_POT1_CH				0x01
 #define ADC_POT2_CH				0x02
-#define ADC_PHA_CH				0x01	//PinA0
-#define ADC_PHB_CH				0x02	//PinA1
-#define ADC_PHC_CH				0x03	//PinA2
 
+//Mux channels for the joystic axes
 #define ADC_CH_JOYSTICK_X		0x01
-#define ADC_CH_JOYSTICK_Y		0x02
+#define ADC_CH_JOYSTICK_Y		0x00
 
 //Number of ADC channels available
 #define ADC_CHANNELS			8
