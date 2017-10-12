@@ -42,15 +42,12 @@
 */
 void pioInit(void)
 {
-//Lab board IO mux control.
-#if defined TARGET_LAB_BOARD
-	DDRE = 0x03;			//Set port E 0,1 for output (mux)
-	DDRD = 0x06;			//Set port D 5,6 for output (mux)
-	PORTD = 0x00;			//Set mux to 0
-	PORTE = 0x00;			//Set mux to 0
-#endif
+	DDRF = 0x00;			//PORTA for input (Analogue inputs)
+	DDRB = 0xE0;			//PWM outputs for X axis
+	DDRC = 0x3F;			//PORTC for output (Polarity select pins)
+	DDRE = 0x3A;			//PWM outputs for Y axis and UART TX
 	
-	DDRA = 0x00;			//PORTA for input
-	DDRC = 0xFF;			//PORTC for output
+	PORTB = 0x00;
 	PORTC = 0x00;			//Switch all Outputs off initially
+	PORTE = 0x00;
 }

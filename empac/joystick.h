@@ -60,4 +60,7 @@ typedef struct JoystickData2D
 */
 void joyUpdate(JoystickData2D *jd);
 
+uint8_t joyGetRawData(JoystickData2D *jd);
+void joyCalculateOutput(JoystickData2D *jd);
+
 #endif /* JOYSTICK_H_ */

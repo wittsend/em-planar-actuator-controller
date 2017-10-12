@@ -38,8 +38,8 @@
 #define ADC_POT2_CH				0x02
 
 //Mux channels for the joystic axes
-#define ADC_CH_JOYSTICK_X		0x01
-#define ADC_CH_JOYSTICK_Y		0x00
+#define ADC_CH_JOYSTICK_X		0x00
+#define ADC_CH_JOYSTICK_Y		0x02
 
 //Number of ADC channels available
 #define ADC_CHANNELS			8
@@ -56,7 +56,7 @@
 
 ////Macros////
 //Changes the mux channel while ensuring previous settings remain
-#define adcSetChannel(value)	(ADMUX = (ADMUX&0xE0)|value)
+#define adcSetChannel(value)	(ADMUX = (ADMUX&0xE0)|(value&0x1F))
 #define adcGetChannel			(ADMUX & 0x1F)
 
 //Retrieve 10bit ADC sample

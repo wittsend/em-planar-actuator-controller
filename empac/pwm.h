@@ -25,13 +25,13 @@
 #include <avr/io.h>			//Hardware specific register definitions
 
 //////////////[Defines]/////////////////////////////////////////////////////////////////////////////
-#define pwmXPHA	OCR3A
-#define pwmXPHB	OCR3B
-#define pwmXPHC	OCR3C
+#define pwmXPHA	OCR1A
+#define pwmXPHB	OCR1B
+#define pwmXPHC	OCR1C
 
-#define pwmYPHA	OCR1A
-#define pwmYPHB	OCR1B
-#define pwmYPHC	OCR1C
+#define pwmYPHA	OCR3A
+#define pwmYPHB	OCR3B
+#define pwmYPHC	OCR3C
 
 //////////////[Functions]///////////////////////////////////////////////////////////////////////////
 /*

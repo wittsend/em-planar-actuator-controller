@@ -53,22 +53,20 @@ volatile uint16_t adcData[ADC_CHANNELS];	//Stores data from each ADC channel
 */
 void adcInit(void)
 {
-	ADMUX	
-	=	(1<<REFS0);
-	//|	0x01;					//Voltage reference selection.
+	ADMUX
+	=	(0x01<<REFS0);
+	//=	0x00;					//Voltage reference selection. (AREF)				
 	
 	adcSetChannel(ADC_CH_JOYSTICK_X);
 	adcCurrentChannel = ADC_CH_JOYSTICK_X;
 
 	ADCSRB
-	|=	(1<<ADHSM)				//High speed
-	|	(0x00);					//Free running mode
+	=	(0x00);					//Free running mode
 	ADCSRA
 	=	(1<<ADEN)				//Enable the ADC
 	|	(1<<ADSC)				//Start converting
 	|	(1<<ADIE)				//Enable interrupt
-	//|	(1<<ADATE)				//Auto triggering Enabled
-	|	0x07;					//1/128th conversion speed
+	|	ADC_DIV128_CLK;			//1/128th conversion speed
 }
 
 /*
@@ -144,19 +142,22 @@ uint16_t adcGetData(uint8_t channel)
 */
 ISR(ADC_vect)
 {
-	adcData[adcCurrentChannel] = adcLastSample;
-	
-	switch(adcCurrentChannel)
+	if(!adcNewDataFlag)
 	{
-		case ADC_CH_JOYSTICK_X:
-			adcCurrentChannel = ADC_CH_JOYSTICK_Y;
-			break;
+		adcData[adcCurrentChannel] = adcLastSample;
+	
+		switch(adcCurrentChannel)
+		{
+			case ADC_CH_JOYSTICK_X:
+				adcCurrentChannel = ADC_CH_JOYSTICK_Y;
+				break;
 			
-		case ADC_CH_JOYSTICK_Y:
-			adcCurrentChannel = ADC_CH_JOYSTICK_X;
-			adcNewDataFlag = 1;
-			break;
+			case ADC_CH_JOYSTICK_Y:
+				adcCurrentChannel = ADC_CH_JOYSTICK_X;
+				adcNewDataFlag = 1;
+				break;
+		}
+		adcSetChannel(adcCurrentChannel);
 	}
-	adcSetChannel(adcCurrentChannel);
 	adcStartConv;
 }
