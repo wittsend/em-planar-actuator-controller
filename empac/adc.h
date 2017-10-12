@@ -36,11 +36,9 @@
 #define ADC_LDR_CH				0x00
 #define ADC_POT1_CH				0x01
 #define ADC_POT2_CH				0x02
-#define ADC_PHA_CH				0x01	//PinA0
-#define ADC_PHB_CH				0x02	//PinA1
-#define ADC_PHC_CH				0x03	//PinA2
 
-#define ADC_CH_JOYSTICK_X		0x01
+//Mux channels for the joystic axes
+#define ADC_CH_JOYSTICK_X		0x00
 #define ADC_CH_JOYSTICK_Y		0x02
 
 //Number of ADC channels available
@@ -58,7 +56,7 @@
 
 ////Macros////
 //Changes the mux channel while ensuring previous settings remain
-#define adcSetChannel(value)	(ADMUX = (ADMUX&0xE0)|value)
+#define adcSetChannel(value)	(ADMUX = (ADMUX&0xE0)|(value&0x1F))
 #define adcGetChannel			(ADMUX & 0x1F)
 
 //Retrieve 10bit ADC sample

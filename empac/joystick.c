@@ -25,8 +25,7 @@
 #include "joystick.h"
 
 //////////////[Private functions]///////////////////////////////////////////////////////////////////
-static uint8_t joyGetRawData(JoystickData2D *jd);
-static void joyCalculateOutput(JoystickData2D *jd);
+
 
 //////////////[Functions]///////////////////////////////////////////////////////////////////////////
 /*
@@ -134,7 +133,7 @@ void joyCalculateOutput(JoystickData2D *jd)
 
 			//Calculate the axis output
 			jd->axis[thisAxis].output 
-			=	(int16_t)((offCentre*jd->axis[thisAxis].outputMax)
+			=	((offCentre*jd->axis[thisAxis].outputMax)
 			/	(jd->axis[thisAxis].rawMax
 			-	jd->axis[thisAxis].rawCnt
 			-	jd->axis[thisAxis].deadzone));

@@ -176,7 +176,7 @@ void buildCosineLutPWM(int16_t *lutArray, uint16_t size);
 * specified by LUT_RESOLUTION by the ratio of the given angle to 360 degrees.
 *
 */
-uint16_t pwmCosDeg(float degrees);
+int16_t pwmCosDeg(float degrees);
 
 /*
 * Function:
@@ -198,7 +198,7 @@ uint16_t pwmCosDeg(float degrees);
 * specified by LUT_RESOLUTION by the ratio of the given angle to 360 degrees.
 *
 */
-uint16_t pwmCosRad(float radians);
+int16_t pwmCosRad(float radians);
 
 /*
 * Function:
@@ -220,7 +220,7 @@ uint16_t pwmCosRad(float radians);
 * The cosine value from the look up table is returned.
 *
 */
-uint16_t pwmCos(int16_t tableElement);
+int16_t pwmCos(int16_t tableElement);
 
 
 #endif /* COSINE_LUT_H_ */
