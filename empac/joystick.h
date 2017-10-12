@@ -33,8 +33,8 @@ typedef struct JoystickAxis
 	uint16_t deadzone;	
 	uint16_t raw;
 	uint8_t adcChannel;
-	uint16_t outputMax;
-	int16_t output;
+	float outputMax;
+	float output;
 } JoystickAxis;
 
 typedef struct JoystickData2D

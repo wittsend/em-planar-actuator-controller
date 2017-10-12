@@ -298,8 +298,6 @@ int16_t pwmCos(int16_t tableElement)
 	//less than 0.
 	while(e >= LUT_RESOLUTION)				//If table value is out of range, scale it down so its
 		e -= LUT_RESOLUTION;				//in range.
-	while(e <= LUT_RESOLUTION)				//If table value is out of range, scale it down so its
-		e += LUT_RESOLUTION;				//in range.
 
 	return pwmCosTablePWM[e];
 }

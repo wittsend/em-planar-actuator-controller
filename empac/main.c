@@ -110,21 +110,21 @@ int main(void)
 			[X].rawMax		= 1023,
 			[X].rawMin		= 0,
 			[X].rawCnt		= 530,
-			[X].deadzone	= 16,
+			[X].deadzone	= 0,
 			[X].adcChannel	= ADC_CH_JOYSTICK_X,
-			[X].outputMax	= 100,
+			[X].outputMax	= 2.0,
 			
 			[Y].rawMax		= 1023,
 			[Y].rawMin		= 0,
 			[Y].rawCnt		= 510,
-			[Y].deadzone	= 16,
+			[Y].deadzone	= 0,
 			[Y].adcChannel	= ADC_CH_JOYSTICK_Y,
-			[Y].outputMax	= 100
+			[Y].outputMax	= 2.0
 		}
 	};
 
-	int16_t angleXA = 0;
-	int16_t angleXB = 0;
+	float angleXA = 0;
+	float angleXB = 0;
 	int16_t angleXC = 0;
 	int16_t angleYA = 0;
 	int16_t angleYB = 0;
@@ -132,44 +132,44 @@ int main(void)
 
     while(1) 
     {
-		////Update the Phase A angles
-		//angleXA += jd.axis[X].output;
-		//angleYA += jd.axis[Y].output;
-		//
-		////If the angles are getting too big, scale them down
-		//while(angleXA >= LUT_RESOLUTION)
-			//angleXA -= LUT_RESOLUTION;
-			//
-		//while(angleXA < 0)
-			//angleXA += LUT_RESOLUTION;
-			//
-		//while(angleYA >= LUT_RESOLUTION)
-			//angleYA -= LUT_RESOLUTION;
-			//
-		//while(angleYA < 0)
-			//angleYA += LUT_RESOLUTION;
-		//
-		////Calculate phase angles
-		//angleXB = angleXA + PHB;
-		//angleXC = angleXB + PHC;
-		//angleYB = angleYA + PHB;
-		//angleYC = angleYB + PHC;
-//
-		////Set the polarity pins
-		//if(pwmCos(angleXA) < 0) pioXPhaseAOff; else pioXPhaseAOn;
-		//if(pwmCos(angleXB) < 0) pioXPhaseBOff; else pioXPhaseBOn;
-		//if(pwmCos(angleXC) < 0) pioXPhaseCOff; else pioXPhaseCOn;
-		//if(pwmCos(angleYA) < 0) pioYPhaseAOff; else pioYPhaseAOn;
-		//if(pwmCos(angleYB) < 0) pioYPhaseBOff; else pioYPhaseBOn;
-		//if(pwmCos(angleYC) < 0) pioYPhaseCOff; else pioYPhaseCOn;
-//
-		////Set the PWM duty cycles
-		//pwmXPHA = abs(pwmCos(angleXA));
-		//pwmXPHB = abs(pwmCos(angleXB));
-		//pwmXPHC = abs(pwmCos(angleXC));
-		//pwmYPHA = abs(pwmCos(angleYA));
-		//pwmYPHB = abs(pwmCos(angleYB));
-		//pwmYPHC = abs(pwmCos(angleYC));
+		//Update the Phase A angles
+		angleXA += jd.axis[X].output;
+		angleYA += jd.axis[Y].output;
+		
+		//If the angles are getting too big, scale them down
+		while(angleXA >= LUT_RESOLUTION)
+			angleXA -= LUT_RESOLUTION;
+			
+		while(angleXA < 0)
+			angleXA += LUT_RESOLUTION;
+			
+		while(angleYA >= LUT_RESOLUTION)
+			angleYA -= LUT_RESOLUTION;
+			
+		while(angleYA < 0)
+			angleYA += LUT_RESOLUTION;
+		
+		//Calculate phase angles
+		angleXB = (int16_t)angleXA + PHB;
+		angleXC = angleXB + PHC;
+		angleYB = (int16_t)angleYA + PHB;
+		angleYC = angleYB + PHC;
+
+		//Set the polarity pins
+		if(pwmCos((int16_t)angleXA) < 0) pioXPhaseAOff; else pioXPhaseAOn;
+		if(pwmCos(angleXB) < 0) pioXPhaseBOff; else pioXPhaseBOn;
+		if(pwmCos(angleXC) < 0) pioXPhaseCOff; else pioXPhaseCOn;
+		if(pwmCos((int16_t)angleYA) < 0) pioYPhaseAOff; else pioYPhaseAOn;
+		if(pwmCos(angleYB) < 0) pioYPhaseBOff; else pioYPhaseBOn;
+		if(pwmCos(angleYC) < 0) pioYPhaseCOff; else pioYPhaseCOn;
+
+		//Set the PWM duty cycles
+		pwmXPHA = abs(pwmCos((int16_t)angleXA));
+		pwmXPHB = abs(pwmCos(angleXB));
+		pwmXPHC = abs(pwmCos(angleXC));
+		pwmYPHA = abs(pwmCos((int16_t)angleYA));
+		pwmYPHB = abs(pwmCos(angleYB));
+		pwmYPHC = abs(pwmCos(angleYC));
 
 		//Poll the Joystick
 		joyUpdate(&jd);		//Fetch new data from joystick.

@@ -47,7 +47,7 @@ void pioInit(void)
 	DDRC = 0x3F;			//PORTC for output (Polarity select pins)
 	DDRE = 0x3A;			//PWM outputs for Y axis and UART TX
 	
-	PORTB = 0x00;
+	PORTB = 0xE0;
 	PORTC = 0x00;			//Switch all Outputs off initially
-	PORTE = 0x00;
+	PORTE = 0x3A;
 }
