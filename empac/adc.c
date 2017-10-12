@@ -14,13 +14,9 @@
 *
 * Functions:
 * void adcInit(void)
-<<<<<<< HEAD
 * uint8_t adcNewData(void)
 * uint16_t adcGetData(uint8_t channel)
 * ISR(ADC_Vect)
-=======
-* ISR(ADC_vect)
->>>>>>> ADC-current-control-test-code
 *
 */
 
@@ -142,11 +138,13 @@ uint16_t adcGetData(uint8_t channel)
 */
 ISR(ADC_vect)
 {
+	//Don't constantly interrupt the code. Only perform a read when the last data has been read.
 	if(!adcNewDataFlag)
 	{
-		adcData[adcCurrentChannel] = adcLastSample;
+		adcData[adcCurrentChannel] = adcLastSample;	//Fetch the last sample and store it in the 
+													//array
 	
-		switch(adcCurrentChannel)
+		switch(adcCurrentChannel)					//Switch to the next ADC mux channel to read
 		{
 			case ADC_CH_JOYSTICK_X:
 				adcCurrentChannel = ADC_CH_JOYSTICK_Y;
@@ -154,10 +152,10 @@ ISR(ADC_vect)
 			
 			case ADC_CH_JOYSTICK_Y:
 				adcCurrentChannel = ADC_CH_JOYSTICK_X;
-				adcNewDataFlag = 1;
-				break;
+				adcNewDataFlag = 1;					//If all ADC channels have been sampled, then
+				break;								//indicate that new data is available.
 		}
-		adcSetChannel(adcCurrentChannel);
+		adcSetChannel(adcCurrentChannel);			//Set the ADC mux channel
 	}
-	adcStartConv;
+	adcStartConv;									//Start the next conversion.
 }
