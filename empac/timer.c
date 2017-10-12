@@ -13,7 +13,7 @@
 * Atmel SAM 4N Processor Datasheet:http://www.atmel.com/Images/Atmel-11158-32-bit%20Cortex-M4-Microcontroller-SAM4N16-SAM4N8_Datasheet.pdf
 *
 * Functions:
-* void timer2Init(void)
+* void timer0Init(void)
 * ISR(TIMER0_COMPA_vect)
 *
 */
@@ -58,7 +58,7 @@ uint32_t systemTimestamp = 0;
 * See above for timer2 bit field settings
 *
 */
-void timer2Init(void)
+void timer0Init(void)
 {
 	TCCR0A
 	=	((TIMER0_COMPA & 0x03) << 6)

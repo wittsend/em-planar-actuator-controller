@@ -69,7 +69,7 @@
 */
 void setup(void)
 {
-	buildLuts();
+	buildLut();
 	pioInit();
 	//timer2Init();
 	xPwmInit();
@@ -139,13 +139,10 @@ int main(void)
 		//If the angles are getting too big, scale them down
 		while(angleXA >= LUT_RESOLUTION)
 			angleXA -= LUT_RESOLUTION;
-			
 		while(angleXA < 0)
 			angleXA += LUT_RESOLUTION;
-			
 		while(angleYA >= LUT_RESOLUTION)
 			angleYA -= LUT_RESOLUTION;
-			
 		while(angleYA < 0)
 			angleYA += LUT_RESOLUTION;
 		

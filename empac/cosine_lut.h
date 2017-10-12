@@ -13,11 +13,7 @@
 * Relevant reference materials or datasheets if applicable
 *
 * Functions:
-* void buildLuts(void)
-* void buildDcCosineLutPWM(uint16_t *lutArray, uint16_t size)
-* uint16_t pwmDcCosDeg(float degrees)
-* uint16_t pwmDcCosRad(float radians)
-* uint16_t pwmDcCos(int16_t tableElement)
+* void buildLut(void)
 * uint16_t pwmCosDeg(float degrees)
 * uint16_t pwmCosRad(float radians)
 * uint16_t pwmCos(int16_t tableElement)
@@ -29,7 +25,6 @@
 
 //////////////[Includes]////////////////////////////////////////////////////////////////////////////
 #include <math.h>			//for M_PI, cos(), fabs()
-//#include <float.h>
 #include <stdlib.h>			//for abs() function
 #include <stdint.h>			//Gives C99 standard integer definitions
 
@@ -46,22 +41,7 @@
 //////////////[Functions]///////////////////////////////////////////////////////////////////////////
 /*
 * Function:
-* void initLut(void)
-*
-* Builds cosine lookup tables and stores them in RAM
-*
-* Inputs:
-* none
-*
-* Returns:
-* none
-*
-*/
-void buildLuts(void);
-
-/*
-* Function:
-* void buildCosineLutPWM(uint16_t *lutArray)
+* void buildLut(void)
 *
 * Builds a cosine function look up table in RAM with the number of elements specified by
 * 'size'. Maximum value = PWM_TOP, minimum value = -PWM_TOP.
@@ -75,86 +55,8 @@ void buildLuts(void);
 * Returns:
 * none
 *
-* Implementation:
-* A for loop counts from 0 to size, populating the lookup table with amplitude shifted cosine
-* values. The values range from 0 to PWM_TOP (DC offset)
-*
 */
-void buildCosineLutPWM(int16_t *lutArray, uint16_t size);
-
-/*
-* Function:
-* void buildDcCosineLutPWM(uint16_t *lutArray)
-*
-* Builds a DC offset cosine function look up table in RAM with the number of elements specified by
-* 'size'. Maximum value = PWM_TOP, minimum value = 0. 
-*
-* Inputs:
-* uint16_t *lutArray:
-*   A predefined floating point array where the cosine table will be stored
-* uint16_t size:
-*   16bit integer giving the size of the look up table.
-*
-* Returns:
-* none
-*
-*/
-//void buildDcCosineLutPWM(uint16_t *lutArray, uint16_t size);
-
-/*
-* Function:
-* uint16_t pwmDcCosDeg(float degrees)
-*
-* Returns the DC offset cosine function for the given angle in degrees from the look up table.
-* Equivalent to y = 0.5*cos(degrees) + 0.5
-*
-* Inputs:
-* float degrees:
-*   Angle in degrees for which to return a value
-*
-* Returns:
-*   Floating point cosine function value for the given angle
-*
-*/
-//uint16_t pwmDcCosDeg(float degrees);
-
-/*
-* Function:
-* uint16_t pwmDcCosRad(float degrees)
-*
-* Returns the DC offset cosine function for the given angle in radians from the look up table.
-* Equivalent to y = 0.5*cos(degrees) + 0.5
-*
-* Inputs:
-* float degrees:
-*   Angle in degrees for which to return a value
-*
-* Returns:
-*   Floating point cosine function value for the given angle
-*
-*/
-//uint16_t pwmDcCosRad(float radians);
-
-/*
-* Function:
-* uint16_t pwmDcCosRad(float degrees)
-*
-* Returns the DC offset cosine function for the given angle in radians from the look up table.
-* Equivalent to y = 0.5*cos(degrees) + 0.5
-*
-* Inputs:
-* int16_t tableElement:
-*   Table row number from which to retrieve a value
-*
-* Returns:
-*   Floating point cosine function value stored in the given table element
-*
-* Implementation:
-* The element is checked to make sure it is within range of the LUT, and corrected if necessary.
-* The cosine value from the look up table is returned.
-*
-*/
-//uint16_t pwmDcCos(int16_t tableElement);
+void buildLut(void);
 
 /*
 * Function:
