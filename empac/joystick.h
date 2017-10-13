@@ -25,22 +25,25 @@
 #define Y							1
 
 ///////////////[Type Definitions]///////////////////////////////////////////////////////////////////
+
+//A structure to define a single axis on the joystick
 typedef struct JoystickAxis
 {
-	uint16_t rawMax;
-	uint16_t rawMin;
-	uint16_t rawCnt;
-	uint16_t deadzone;	
-	uint16_t raw;
-	uint8_t adcChannel;
-	float outputMax;
-	float output;
+	uint16_t rawMax;			//Maximum raw number from the ADC (1023 on a 10-bit ADC)
+	uint16_t rawMin;			//Minimum raw number from the ADC (usually 0)
+	uint16_t rawCnt;			//The value from the ADC when the axis is centred (ideally 512)
+	uint16_t deadzone;			//The number of ADC LSBs to disregard about the centre point
+	uint16_t raw;				//The raw input for this axis from the ADC
+	uint8_t adcChannel;			//The ADC mux channel that this axis is on
+	float outputMax;			//The maximum output value
+	float output;				//The current filtered joystick output
 } JoystickAxis;
 
+//Defines a 2 axis joystick.
 typedef struct JoystickData2D
 {
 	const uint8_t numOfAxes;	//Set to 2 when initialised.
-	JoystickAxis axis[2];	//2D joystick has two axes, X and Y
+	JoystickAxis axis[2];		//2D joystick has two axes, X and Y
 } JoystickData2D;
 
 ///////////////[Functions]//////////////////////////////////////////////////////////////////////////

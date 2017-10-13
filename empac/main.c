@@ -33,10 +33,17 @@
 
 //////////////[Defines]/////////////////////////////////////////////////////////////////////////////
 //Base phase relationships:
+////1024 size LUT
+////Cosine table phase relationships
+//#define PHA			0
+//#define PHB			341
+//#define PHC			682
+//3600 size LUT
 //Cosine table phase relationships
 #define PHA			0
-#define PHB			341
-#define PHC			682
+#define PHB			1200
+#define PHC			2400
+
 //Phase relationships in degrees
 #define PHA_DEG		0
 #define PHB_DEG		120
@@ -45,9 +52,6 @@
 #define PHA_RAD		0
 #define PHB_RAD		2.094395
 #define PHC_RAD		4.188790
-
-//////////////[Global Variables]////////////////////////////////////////////////////////////////////
-
 
 /////////////[Functions]////////////////////////////////////////////////////////////////////////////
 /*
@@ -112,14 +116,14 @@ int main(void)
 			[X].rawCnt		= 530,
 			[X].deadzone	= 0,
 			[X].adcChannel	= ADC_CH_JOYSTICK_X,
-			[X].outputMax	= 2.0,
+			[X].outputMax	= 6.0,
 			
 			[Y].rawMax		= 1023,
 			[Y].rawMin		= 0,
 			[Y].rawCnt		= 510,
 			[Y].deadzone	= 0,
 			[Y].adcChannel	= ADC_CH_JOYSTICK_Y,
-			[Y].outputMax	= 2.0
+			[Y].outputMax	= 6.0
 		}
 	};
 

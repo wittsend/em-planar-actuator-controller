@@ -31,12 +31,18 @@
 //////////////[Defines]/////////////////////////////////////////////////////////////////////////////
 //Number of elements each look up table has. If each value is a 4 byte float then a 1024 element LUT
 //should take up 4kb (4 * 1024) which is 50% of the available RAM
-#define LUT_RESOLUTION	1024				//10bit look up table
+#define LUT_RESOLUTION	3600				//look up table size
 #define PWM_TOP			1023				//PWM top value
 
 //By pre calculating these conversion factors, the program execution ought to speed up.
+//1024 size LUT
 #define RAD_LUT_CONV	162.974661	//Radians conversion factor: LUT_RESOLUTION/2/PI
 #define DEG_LUT_CONV	2.844444	//Degrees conversion factor: LUT_RESOLUTION/360
+
+//3600 size LUT
+#define RAD_LUT_CONV	572.9577951	//Radians conversion factor: LUT_RESOLUTION/2/PI
+#define DEG_LUT_CONV	10			//Degrees conversion factor: LUT_RESOLUTION/360
+
 #define TWO_PI			6.283185
 //////////////[Functions]///////////////////////////////////////////////////////////////////////////
 /*
