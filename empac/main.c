@@ -114,16 +114,18 @@ int main(void)
 			[X].rawMax		= 1023,
 			[X].rawMin		= 0,
 			[X].rawCnt		= 530,
-			[X].deadzone	= 0,
+			[X].deadzone	= 3,
 			[X].adcChannel	= ADC_CH_JOYSTICK_X,
-			[X].outputMax	= 6.0,
+			//[X].outputMax	= 6.0,
+			[X].outputMax	= 2.0,
 			
 			[Y].rawMax		= 1023,
 			[Y].rawMin		= 0,
 			[Y].rawCnt		= 510,
-			[Y].deadzone	= 0,
+			[Y].deadzone	= 3,
 			[Y].adcChannel	= ADC_CH_JOYSTICK_Y,
-			[Y].outputMax	= 6.0
+			//[Y].outputMax	= 6.0
+			[Y].outputMax	= 2.0
 		}
 	};
 
